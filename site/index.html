@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ольга Андреева — сексолог, инициации психологической зрелости</title>
+<meta name="description" content="Ольга Андреева — сексолог, специалист по инициациям психологической зрелости, телесный терапевт. Личная работа, тренинги по архетипам, выездные ретриты." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700;1,6..96,900&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400;1,500;1,700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#0a0908;
+  --noir:#141010;
+  --graphite:#1e1815;
+  --paper:#f2ede4;
+  --paper-2:#e8e1d4;
+  --pearl:#d9cdb8;
+  --dust:#8a7d70;
+  --dust-2:#5a4f47;
+  --blood:#c94a3a;
+  --blood-deep:#9c3324;
+  --serif:'Bodoni Moda', 'Times New Roman', serif;
+  --serif-italic:'Cormorant Garamond', Georgia, serif;
+  --sans:'Manrope', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16px;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+
+::selection{background:var(--blood);color:var(--paper)}
+
+/* ---------- MASTHEAD ---------- */
+.masthead{
+  position:fixed;top:0;left:0;right:0;z-index:80;
+  padding:18px 40px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:24px;
+  background:linear-gradient(180deg, rgba(10,9,8,0.75) 0%, rgba(10,9,8,0) 100%);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  transition:padding .35s ease, background .35s ease;
+}
+.masthead .edition{
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:0.42em;
+  text-transform:uppercase;
+  color:var(--dust);
+}
+.masthead .brand{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:19px;
+  letter-spacing:0.32em;
+  text-transform:uppercase;
+  color:var(--paper);
+  white-space:nowrap;
+}
+.masthead .brand em{font-style:italic;letter-spacing:0.14em;color:var(--blood)}
+.masthead nav{
+  justify-self:end;
+  display:flex;
+  gap:26px;
+  font-size:11px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--dust);
+}
+.masthead nav a{position:relative;padding-bottom:4px;transition:color .25s}
+.masthead nav a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--blood);transform:scaleX(0);transform-origin:right;
+  transition:transform .4s cubic-bezier(.7,0,.3,1);
+}
+.masthead nav a:hover{color:var(--paper)}
+.masthead nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.masthead nav a:focus-visible{outline:1px dashed var(--blood);outline-offset:4px;color:var(--paper)}
+.masthead.compressed{padding:10px 40px;background:rgba(10,9,8,0.92)}
+@media (max-width:900px){
+  .masthead{grid-template-columns:1fr auto;padding:14px 20px}
+  .masthead nav{display:none}
+  .masthead .edition{display:none}
+}
+
+/* ---------- COVER / HERO ---------- */
+.cover{
+  position:relative;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1.05fr 1fr;
+  overflow:hidden;
+}
+.cover__text{
+  position:relative;
+  padding:140px 60px 60px 60px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:var(--ink);
+  z-index:2;
+}
+.cover__kicker{
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.5em;
+  color:var(--dust);
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.cover__kicker::before,
+.cover__kicker::after{content:'';flex:0 0 40px;height:1px;background:var(--dust-2)}
+.cover__kicker::before{flex:0 0 6px}
+.cover__title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(72px, 11vw, 176px);
+  line-height:0.82;
+  letter-spacing:-0.02em;
+  color:var(--paper);
+  margin-top:40px;
+}
+.cover__title .first{display:block;font-weight:500}
+.cover__title .last{
+  display:block;
+  font-style:italic;
+  font-weight:400;
+  margin-left:0.12em;
+  color:var(--paper);
+}
+.cover__rule{
+  width:180px;height:1px;background:var(--blood);
+  margin:34px 0 26px;
+  transform-origin:left;
+  animation:ruleIn 1.4s cubic-bezier(.7,0,.3,1) .5s both;
+}
+@keyframes ruleIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.cover__deck{
+  font-family:var(--serif-italic);
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(20px, 2.1vw, 27px);
+  line-height:1.35;
+  max-width:440px;
+  color:var(--paper-2);
+}
+.cover__meta{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:60px;
+  padding-top:22px;
+  border-top:1px solid var(--dust-2);
+}
+.cover__credentials{
+  font-size:11px;
+  letter-spacing:0.3em;
+  color:var(--dust);
+  text-transform:uppercase;
+  line-height:2.1;
+}
+.cover__credentials strong{color:var(--paper);font-weight:500}
+.cover__cta{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:20px;
+  color:var(--blood);
+  border-bottom:1px solid var(--blood);
+  padding:4px 0 6px;
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  transition:gap .35s ease, color .3s;
+}
+.cover__cta:hover{gap:22px;color:var(--paper)}
+.cover__cta:focus-visible{outline:1px dashed var(--blood);outline-offset:6px}
+.cover__cta .arr{font-family:var(--sans);font-style:normal;font-size:16px;letter-spacing:.05em}
+
+.cover__image{
+  position:relative;
+  overflow:hidden;
+  background:#000;
+}
+.cover__image img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 22%;
+  filter:contrast(1.05) saturate(0.95);
+  animation:coverImgIn 2.2s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes coverImgIn{from{transform:scale(1.08);filter:contrast(1.2) saturate(0.7) brightness(.6)}to{transform:scale(1);filter:contrast(1.05) saturate(0.95) brightness(1)}}
+.cover__image::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg, var(--ink) 0%, transparent 12%, transparent 88%, rgba(10,9,8,0.4) 100%),
+             linear-gradient(180deg, transparent 60%, rgba(10,9,8,0.4) 100%);
+  pointer-events:none;
+}
+.cover__folio{
+  position:absolute;
+  right:24px;bottom:24px;
+  writing-mode:vertical-rl;
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:0.5em;
+  color:var(--paper);
+  opacity:0.6;
+  text-transform:uppercase;
+  z-index:3;
+}
+.cover__pagenum{
+  position:absolute;
+  right:40px;top:120px;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:110px;
+  color:var(--blood);
+  opacity:0.14;
+  z-index:1;
+  line-height:1;
+  pointer-events:none;
+}
+.cover__scroll{
+  position:absolute;
+  left:60px;bottom:24px;
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:var(--dust);
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  z-index:3;
+}
+.cover__scroll::before{
+  content:'';display:inline-block;width:1px;height:32px;background:var(--dust);
+  animation:scrollLine 2s ease-in-out infinite;
+  transform-origin:top;
+}
+@keyframes scrollLine{0%,100%{transform:scaleY(0.2)}50%{transform:scaleY(1)}}
+
+@media (max-width:900px){
+  .cover{grid-template-columns:1fr;min-height:auto}
+  .cover__image{order:1;height:70vh}
+  .cover__image img{object-position:center 20%}
+  .cover__text{order:2;padding:40px 24px 60px}
+  .cover__title{font-size:64px}
+  .cover__pagenum{top:80px;right:24px;font-size:70px}
+  .cover__scroll{left:24px}
+}
+
+/* ---------- SECTION SCAFFOLD ---------- */
+.section{
+  position:relative;
+  padding:140px 60px;
+}
+.section--paper{background:var(--paper);color:var(--ink)}
+.section--paper .kicker{color:var(--blood-deep)}
+.section--paper .rule{background:var(--blood-deep)}
+.kicker{
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.5em;
+  color:var(--blood);
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+}
+.kicker::before{content:'';display:inline-block;width:26px;height:1px;background:currentColor;opacity:.7}
+.rule{height:1px;background:var(--blood);width:60px}
+
+@media (max-width:900px){.section{padding:80px 24px}}
+
+/* ---------- EDITOR'S LETTER ---------- */
+.letter{
+  background:var(--paper);
+  color:var(--ink);
+  padding:180px 60px 160px;
+  position:relative;
+}
+.letter__grid{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:80px;
+  max-width:1180px;
+  margin:0 auto;
+}
+.letter__meta{
+  border-top:1px solid var(--dust-2);
+  padding-top:16px;
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.4em;
+  color:var(--dust-2);
+  text-transform:uppercase;
+  line-height:2.2;
+}
+.letter__meta strong{color:var(--ink);font-weight:500;display:block;margin-bottom:8px;font-size:14px;letter-spacing:0.2em}
+.letter__body{position:relative}
+.letter__drop{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:150px;
+  line-height:0.85;
+  color:var(--blood-deep);
+  float:left;
+  margin:8px 18px -8px -6px;
+}
+.letter__text{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(24px, 2.4vw, 32px);
+  line-height:1.35;
+  color:var(--ink);
+  letter-spacing:-0.005em;
+}
+.letter__text em{font-style:italic;font-family:var(--serif-italic);font-size:1.05em;color:var(--blood-deep)}
+.letter__sign{
+  margin-top:44px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+.letter__sign::before{content:'';flex:0 0 60px;height:1px;background:var(--ink)}
+.letter__sign span{
+  font-family:var(--serif-italic);
+  font-style:italic;
+  font-size:28px;
+  color:var(--ink);
+}
+.letter__sign small{
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:0.5em;
+  color:var(--dust-2);
+  text-transform:uppercase;
+}
+@media (max-width:900px){
+  .letter{padding:100px 24px}
+  .letter__grid{grid-template-columns:1fr;gap:32px}
+  .letter__drop{font-size:96px}
+}
+
+/* ---------- DOSSIER ---------- */
+.dossier{
+  background:var(--ink);
+  color:var(--paper);
+  padding:160px 60px;
+}
+.dossier__grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;
+  grid-template-columns:0.9fr 1.1fr;
+  gap:80px;
+  align-items:stretch;
+}
+.dossier__portrait{
+  position:relative;
+  align-self:start;
+}
+.dossier__portrait img{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  object-position:center 30%;
+  filter:contrast(1.05) saturate(0.9);
+}
+.dossier__portrait .caption{
+  margin-top:14px;
+  display:flex;justify-content:space-between;
+  font-size:10px;letter-spacing:0.4em;color:var(--dust);text-transform:uppercase;
+}
+.dossier__portrait .caption em{font-family:var(--serif-italic);font-style:italic;letter-spacing:0.05em;text-transform:none;font-size:13px;color:var(--paper-2)}
+.dossier__portrait::before{
+  content:'II';
+  position:absolute;left:-30px;top:-40px;
+  font-family:var(--serif);font-style:italic;
+  color:var(--blood);
+  font-size:120px;opacity:0.5;line-height:1;
+  z-index:-1;
+}
+.dossier__content h2{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(46px, 5.5vw, 84px);
+  line-height:0.95;
+  letter-spacing:-0.015em;
+  margin:22px 0 32px;
+}
+.dossier__content h2 em{font-style:italic;color:var(--blood)}
+.dossier__intro{
+  font-family:var(--serif-italic);font-style:italic;
+  font-size:22px;line-height:1.5;color:var(--paper-2);
+  max-width:520px;margin-bottom:44px;
+}
+.dossier__list{
+  list-style:none;
+  border-top:1px solid var(--dust-2);
+}
+.dossier__list li{
+  display:grid;
+  grid-template-columns:60px 1fr;
+  gap:24px;
+  padding:22px 0;
+  border-bottom:1px solid var(--dust-2);
+  align-items:baseline;
+}
+.dossier__list .n{
+  font-family:var(--serif);font-style:italic;
+  color:var(--blood);
+  font-size:22px;
+}
+.dossier__list h3{
+  font-family:var(--sans);
+  font-weight:500;
+  font-size:14px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--paper);
+  margin-bottom:8px;
+}
+.dossier__list p{
+  font-family:var(--sans);
+  color:var(--dust);
+  font-size:15px;
+  line-height:1.55;
+  max-width:560px;
+}
+
+@media (max-width:900px){
+  .dossier{padding:80px 24px}
+  .dossier__grid{grid-template-columns:1fr;gap:40px}
+  .dossier__portrait::before{left:-8px;top:-16px;font-size:70px}
+}
+
+/* ---------- INDEX (PROGRAMS) ---------- */
+.index{
+  background:var(--paper);
+  color:var(--ink);
+  padding:170px 60px 140px;
+  position:relative;
+}
+.index__header{
+  max-width:1280px;
+  margin:0 auto 80px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:40px;
+  align-items:end;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:26px;
+}
+.index__header h2{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(56px, 7vw, 108px);
+  line-height:0.92;
+  letter-spacing:-0.02em;
+}
+.index__header h2 em{font-style:italic;color:var(--blood-deep)}
+.index__header .kicker{color:var(--blood-deep)}
+.index__header .contents{
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.4em;
+  color:var(--dust-2);
+  text-transform:uppercase;
+  text-align:right;
+}
+.index__grid{
+  max-width:1280px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 320px 1fr;
+  gap:60px;
+  align-items:start;
+}
+.index__col{display:flex;flex-direction:column;gap:60px}
+.entry{position:relative;padding-top:28px;border-top:1px solid var(--ink)}
+.entry__num{
+  font-family:var(--serif);font-style:italic;
+  color:var(--blood-deep);
+  font-size:15px;
+  letter-spacing:0.2em;
+  margin-bottom:12px;
+  display:block;
+}
+.entry__title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:38px;
+  line-height:1.02;
+  letter-spacing:-0.01em;
+  margin-bottom:14px;
+  color:var(--ink);
+}
+.entry__title em{font-style:italic}
+.entry__meta{
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.3em;
+  color:var(--dust-2);
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.entry__body{
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.65;
+  color:var(--dust-2);
+  margin-bottom:24px;
+  max-width:420px;
+}
+.entry__link{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:19px;
+  color:var(--blood-deep);
+  border-bottom:1px solid var(--blood-deep);
+  padding:3px 0 5px;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  transition:gap .35s;
+}
+.entry__link:hover{gap:20px}
+.entry__link:focus-visible{outline:1px dashed var(--blood-deep);outline-offset:6px}
+.entry__link .arr{font-family:var(--sans);font-style:normal;font-size:14px}
+
+.index__portrait{
+  align-self:stretch;
+  position:relative;
+  overflow:hidden;
+  min-height:520px;
+}
+.index__portrait img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 14%;
+  filter:contrast(1.05) saturate(0.95);
+}
+.index__portrait .credit{
+  position:absolute;left:14px;bottom:14px;
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.4em;color:var(--paper);
+  text-transform:uppercase;background:rgba(10,9,8,0.55);padding:6px 10px;
+}
+
+@media (max-width:1100px){
+  .index__grid{grid-template-columns:1fr 1fr;gap:40px}
+  .index__portrait{grid-column:span 2;min-height:400px;order:2}
+  .index__col:nth-child(3){order:3}
+}
+@media (max-width:700px){
+  .index{padding:100px 24px}
+  .index__grid{grid-template-columns:1fr}
+  .index__portrait{grid-column:auto}
+  .index__header{grid-template-columns:1fr}
+  .index__header .contents{text-align:left}
+}
+
+/* ---------- METHOD ---------- */
+.method{
+  background:var(--noir);
+  color:var(--paper);
+  padding:170px 60px;
+  position:relative;
+  overflow:hidden;
+}
+.method::before{
+  content:'INITIATIO';
+  position:absolute;
+  left:-2%;top:12%;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:20vw;
+  color:var(--graphite);
+  line-height:1;
+  z-index:0;
+  letter-spacing:-0.04em;
+  pointer-events:none;
+}
+.method__grid{
+  position:relative;z-index:1;
+  max-width:1180px;margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+}
+.method__title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(48px, 5.6vw, 88px);
+  line-height:0.98;
+  letter-spacing:-0.015em;
+}
+.method__title em{font-style:italic;color:var(--blood)}
+.method__meta{
+  margin-top:26px;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.4em;color:var(--dust);text-transform:uppercase;
+  line-height:2;
+}
+.method__body{
+  font-family:var(--serif-italic);
+  font-size:19px;
+  line-height:1.65;
+  color:var(--paper-2);
+}
+.method__body p + p{margin-top:20px}
+.method__body strong{
+  font-family:var(--serif);
+  font-weight:400;
+  color:var(--blood);
+  font-style:italic;
+  font-size:1.1em;
+}
+.method__tags{
+  margin-top:36px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 14px;
+  font-family:var(--sans);
+  font-size:11px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--dust);
+}
+.method__tags span{
+  border:1px solid var(--dust-2);
+  padding:8px 14px;
+  border-radius:100px;
+}
+
+@media (max-width:900px){
+  .method{padding:100px 24px}
+  .method__grid{grid-template-columns:1fr;gap:40px}
+}
+
+/* ---------- FORMATS (PRICING MENU) ---------- */
+.formats{
+  background:var(--paper);
+  color:var(--ink);
+  padding:170px 60px;
+}
+.formats__header{
+  max-width:1180px;margin:0 auto 70px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;
+}
+.formats__header h2{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(56px, 6.4vw, 104px);
+  line-height:0.92;
+  letter-spacing:-0.02em;
+}
+.formats__header h2 em{font-style:italic;color:var(--blood-deep)}
+.formats__header p{
+  font-family:var(--serif-italic);
+  font-style:italic;
+  font-size:22px;
+  line-height:1.45;
+  color:var(--ink);
+}
+.menu{
+  max-width:1180px;margin:0 auto;
+  border-top:1px solid var(--ink);
+}
+.menu__row{
+  display:grid;
+  grid-template-columns:60px 1fr 1fr 180px;
+  gap:28px;
+  padding:32px 0;
+  border-bottom:1px solid rgba(20,16,16,0.16);
+  align-items:baseline;
+  cursor:pointer;
+  transition:padding-left .3s ease, background .3s;
+}
+.menu__row:hover{padding-left:14px;background:linear-gradient(90deg, rgba(201,74,58,0.05), transparent 60%)}
+.menu__row .roman{
+  font-family:var(--serif);font-style:italic;
+  color:var(--blood-deep);
+  font-size:22px;letter-spacing:0.14em;
+}
+.menu__row h3{
+  font-family:var(--serif);font-weight:400;
+  font-size:32px;line-height:1.05;letter-spacing:-0.01em;
+  color:var(--ink);
+}
+.menu__row h3 em{font-style:italic}
+.menu__row p{
+  font-family:var(--sans);font-size:14px;line-height:1.6;color:var(--dust-2);
+  max-width:340px;
+}
+.menu__price{
+  text-align:right;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:20px;
+  color:var(--ink);
+  border-left:1px dotted rgba(20,16,16,0.35);
+  padding-left:20px;
+  align-self:center;
+}
+.menu__price .from{
+  display:block;
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:var(--dust-2);
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.menu__price em{font-style:italic;color:var(--blood-deep)}
+
+@media (max-width:900px){
+  .formats{padding:100px 24px}
+  .formats__header{grid-template-columns:1fr;gap:24px}
+  .menu__row{grid-template-columns:36px 1fr;grid-template-rows:auto auto auto;gap:12px 16px;padding:24px 0}
+  .menu__row h3{grid-column:2}
+  .menu__row p{grid-column:2}
+  .menu__price{grid-column:2;text-align:left;border-left:0;border-top:1px solid rgba(20,16,16,0.2);padding:14px 0 0}
+}
+
+/* ---------- VOICES / TESTIMONIALS ---------- */
+.voices{
+  background:var(--ink);
+  color:var(--paper);
+  padding:170px 60px 130px;
+  position:relative;
+}
+.voices__header{
+  max-width:1280px;margin:0 auto 80px;
+  display:flex;justify-content:space-between;align-items:end;gap:40px;
+  border-bottom:1px solid var(--dust-2);padding-bottom:24px;
+}
+.voices__header h2{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(56px, 6.5vw, 104px);
+  line-height:0.92;
+  letter-spacing:-0.02em;
+}
+.voices__header h2 em{font-style:italic;color:var(--blood)}
+.voices__header .contents{
+  font-family:var(--sans);font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust);
+  text-align:right;
+  line-height:2;
+}
+.voices__grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:40px;
+}
+.voice{
+  padding:24px 0;
+  border-top:1px solid var(--dust-2);
+  position:relative;
+}
+.voice .quote{
+  font-family:var(--serif-italic);font-style:italic;
+  font-size:24px;line-height:1.4;color:var(--paper);
+}
+.voice .quote::before{
+  content:'“';
+  font-family:var(--serif);
+  color:var(--blood);
+  font-size:70px;
+  line-height:0.4;
+  position:relative;
+  top:22px;
+  margin-right:4px;
+  vertical-align:top;
+}
+.voice .attr{
+  margin-top:20px;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.3em;color:var(--dust);text-transform:uppercase;
+}
+.voice--1{grid-column:span 5}
+.voice--2{grid-column:span 4;grid-column-start:8}
+.voice--3{grid-column:span 4;grid-column-start:3;margin-top:40px}
+.voice--4{grid-column:span 5;grid-column-start:8;margin-top:40px}
+
+@media (max-width:900px){
+  .voices{padding:100px 24px}
+  .voices__grid{grid-template-columns:1fr;gap:20px}
+  .voice{grid-column:auto !important;grid-column-start:auto !important;margin-top:0 !important}
+  .voices__header{flex-direction:column;align-items:flex-start}
+  .voices__header .contents{text-align:left}
+}
+
+/* ---------- BOOKING FORM ---------- */
+.booking{
+  background:var(--paper);
+  color:var(--ink);
+  padding:170px 60px 140px;
+  position:relative;
+}
+.booking__grid{
+  max-width:1180px;margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:80px;
+}
+.booking__left h2{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(52px, 6vw, 96px);
+  line-height:0.94;
+  letter-spacing:-0.02em;
+  margin:20px 0 32px;
+}
+.booking__left h2 em{font-style:italic;color:var(--blood-deep)}
+.booking__left p{
+  font-family:var(--serif-italic);font-style:italic;
+  font-size:22px;line-height:1.5;color:var(--dust-2);
+  max-width:440px;
+}
+.booking__contacts{
+  margin-top:56px;
+  border-top:1px solid var(--ink);
+  padding-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.booking__contacts .item{
+  display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:baseline;
+  padding-bottom:12px;border-bottom:1px dotted rgba(20,16,16,0.25);
+}
+.booking__contacts .label{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust-2);
+}
+.booking__contacts .value{
+  font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);
+}
+.booking__contacts .value em{font-style:italic}
+.booking__contacts a:hover{color:var(--blood-deep)}
+
+form{
+  display:flex;flex-direction:column;gap:26px;
+  background:var(--paper-2);
+  padding:44px 42px;
+  position:relative;
+}
+form::before{
+  content:'FORMULARIUM';
+  position:absolute;top:14px;right:18px;
+  font-family:var(--sans);
+  font-size:9px;letter-spacing:0.5em;color:var(--dust-2);
+}
+.field{display:flex;flex-direction:column;gap:8px;position:relative}
+.field label{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.4em;color:var(--dust-2);
+  text-transform:uppercase;
+}
+.field label .req{color:var(--blood-deep)}
+.field input,
+.field select,
+.field textarea{
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--ink);
+  padding:10px 0;
+  font-family:var(--serif);
+  font-size:20px;
+  color:var(--ink);
+  font-weight:400;
+  outline:none;
+  transition:border-color .25s;
+  border-radius:0;
+  font-style:italic;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{border-color:var(--blood-deep)}
+.field textarea{min-height:96px;resize:vertical;font-style:normal;font-size:17px;font-family:var(--sans)}
+.field select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%230a0908' fill='none' stroke-width='1.4'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right center;
+  padding-right:24px;
+}
+.field .error{
+  display:none;
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:0.15em;color:var(--blood-deep);
+  text-transform:uppercase;
+  margin-top:4px;
+}
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea{border-color:var(--blood-deep)}
+.field.invalid .error{display:block}
+.field.valid input,
+.field.valid select,
+.field.valid textarea{border-color:var(--dust-2)}
+
+.consent{
+  display:flex;gap:12px;align-items:flex-start;
+  font-family:var(--sans);font-size:12px;color:var(--dust-2);line-height:1.5;
+}
+.consent input{
+  appearance:none;-webkit-appearance:none;
+  width:16px;height:16px;
+  border:1px solid var(--ink);
+  flex:0 0 16px;
+  background:transparent;
+  cursor:pointer;
+  border-radius:0;
+  margin-top:2px;
+  position:relative;
+}
+.consent input:checked{background:var(--blood-deep);border-color:var(--blood-deep)}
+.consent input:checked::after{
+  content:'';position:absolute;left:4px;top:0px;width:5px;height:10px;
+  border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg);
+}
+.consent a{border-bottom:1px solid var(--dust-2)}
+
+.submit{
+  margin-top:6px;
+  padding:22px 30px;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--sans);
+  font-size:12px;letter-spacing:0.45em;text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  border:0;
+  cursor:pointer;
+  transition:background .3s, letter-spacing .3s;
+}
+.submit:hover{background:var(--blood-deep);letter-spacing:0.55em}
+.submit:focus-visible{outline:2px dashed var(--blood-deep);outline-offset:4px}
+.submit .arr{font-family:var(--serif);font-style:italic;font-size:20px;letter-spacing:0}
+
+.form__success{
+  display:none;
+  background:var(--ink);color:var(--paper);
+  padding:44px 42px;
+  position:relative;
+}
+.form__success.show{display:block;animation:fadeIn .5s ease both}
+.form__success h3{
+  font-family:var(--serif);font-style:italic;font-weight:400;font-size:36px;line-height:1.1;margin-bottom:14px;color:var(--paper);
+}
+.form__success h3 em{color:var(--blood)}
+.form__success p{font-family:var(--serif-italic);font-style:italic;font-size:19px;color:var(--paper-2);line-height:1.5}
+.form__success small{
+  display:block;margin-top:24px;
+  font-family:var(--sans);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust);
+}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+@media (max-width:900px){
+  .booking{padding:100px 24px}
+  .booking__grid{grid-template-columns:1fr;gap:40px}
+  form{padding:32px 24px}
+}
+
+/* ---------- COLOPHON / FOOTER ---------- */
+.colophon{
+  background:var(--ink);
+  color:var(--paper);
+  padding:80px 60px 40px;
+  border-top:1px solid var(--dust-2);
+}
+.colophon__grid{
+  max-width:1280px;margin:0 auto;
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:60px;
+  padding-bottom:40px;
+  border-bottom:1px solid var(--dust-2);
+}
+.colophon h4{
+  font-family:var(--sans);
+  font-size:10px;letter-spacing:0.5em;color:var(--dust);text-transform:uppercase;
+  margin-bottom:18px;
+}
+.colophon__mast{
+  font-family:var(--serif);font-weight:400;
+  font-size:38px;line-height:1;letter-spacing:-0.01em;
+  color:var(--paper);
+}
+.colophon__mast em{font-style:italic;color:var(--blood)}
+.colophon__tag{
+  margin-top:14px;
+  font-family:var(--serif-italic);font-style:italic;
+  font-size:17px;color:var(--dust);max-width:340px;line-height:1.45;
+}
+.colophon__list{list-style:none;font-family:var(--sans);font-size:13px;line-height:2.1;color:var(--paper-2)}
+.colophon__list a:hover{color:var(--blood)}
+.colophon__bottom{
+  max-width:1280px;margin:0 auto;
+  display:flex;justify-content:space-between;gap:20px;
+  padding-top:24px;
+  font-family:var(--sans);font-size:10px;letter-spacing:0.4em;color:var(--dust);text-transform:uppercase;
+  flex-wrap:wrap;
+}
+
+@media (max-width:900px){
+  .colophon{padding:60px 24px 30px}
+  .colophon__grid{grid-template-columns:1fr;gap:30px}
+  .colophon__bottom{flex-direction:column;gap:8px}
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead" id="masthead">
+  <div class="edition">Vol. I · MMXXVI · Санкт-Петербург</div>
+  <div class="brand">Olga <em>Andreeva</em></div>
+  <nav aria-label="Разделы">
+    <a href="#dossier">Досье</a>
+    <a href="#programs">Практики</a>
+    <a href="#method">Метод</a>
+    <a href="#formats">Форматы</a>
+    <a href="#booking">Запись</a>
+  </nav>
+</header>
+
+<!-- ============ COVER / HERO ============ -->
+<section class="cover" aria-label="Обложка">
+  <div class="cover__text">
+    <div>
+      <div class="cover__kicker">Volume I &nbsp;·&nbsp; The Initiation Issue</div>
+      <h1 class="cover__title">
+        <span class="first">Ольга</span>
+        <span class="last">Андреева</span>
+      </h1>
+      <div class="cover__rule" aria-hidden="true"></div>
+      <p class="cover__deck">
+        Бережно и с любовью провожу тебя к&nbsp;себе истинной&nbsp;— уверенной, ценной, желанной, чувственной и&nbsp;сияющей.
+      </p>
+    </div>
+
+    <div class="cover__meta">
+      <div class="cover__credentials">
+        <strong>Сексолог</strong>
+        <div>Инициации психологической зрелости</div>
+        <div>Телесный терапевт · метод ГНМ</div>
+      </div>
+      <a class="cover__cta" href="#booking" aria-label="Записаться на консультацию">
+        <span>Записаться на сессию</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="cover__scroll" aria-hidden="true">пролистать</div>
+  </div>
+
+  <div class="cover__image" aria-hidden="true">
+    <div class="cover__pagenum">01</div>
+    <img src="photos/01_portrait_red_glove.jpeg" alt="" />
+    <div class="cover__folio">Ph. — Editorial · red glove</div>
+  </div>
+</section>
+
+<!-- ============ EDITOR'S LETTER ============ -->
+<section class="letter" aria-label="От автора">
+  <div class="letter__grid">
+    <aside class="letter__meta reveal">
+      <strong>Editor's Letter</strong>
+      <div>Стр. 04</div>
+      <div>Настоящее</div>
+      <div>Время читать медленно</div>
+    </aside>
+    <div class="letter__body reveal">
+      <span class="letter__drop" aria-hidden="true">К</span>
+      <p class="letter__text">
+        о&nbsp;мне приходят, когда хочется <em>по-настоящему</em> — не&nbsp;играть в&nbsp;удобную, не&nbsp;доказывать, что справляюсь. Хочется вернуться к&nbsp;себе желанной, ценной, живой. К&nbsp;телу, к&nbsp;голосу, к&nbsp;своей женской силе. Мы&nbsp;не&nbsp;копаем годами в&nbsp;детских травмах: инициации работают через образы и&nbsp;архетипы, минуя защиты ума. Изменения приходят быстро — и&nbsp;это удивляет каждый раз.
+      </p>
+      <div class="letter__sign">
+        <span>Ольга А.</span>
+        <small>Автор метода</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOSSIER / ABOUT ============ -->
+<section class="dossier" id="dossier" aria-label="О специалисте">
+  <div class="dossier__grid">
+    <figure class="dossier__portrait reveal">
+      <img src="photos/02_portrait_black_mesh.jpeg" alt="Портрет Ольги Андреевой" />
+      <figcaption class="caption">
+        <span>Portrait — Series II</span>
+        <em>the mesh</em>
+      </figcaption>
+    </figure>
+
+    <div class="dossier__content reveal">
+      <span class="kicker">Досье</span>
+      <h2>Кто я — <em>коротко</em> и&nbsp;по&nbsp;делу</h2>
+      <p class="dossier__intro">
+        Дипломированный сексолог, специалист по&nbsp;инициациям психологической зрелости, телесный терапевт. Практикую с&nbsp;женщинами в&nbsp;личной работе и&nbsp;на&nbsp;тренингах. Автор телесных практик. Международная фотомодель — снималась для MOEVIR и&nbsp;других изданий.
+      </p>
+
+      <ul class="dossier__list">
+        <li>
+          <span class="n">i</span>
+          <div>
+            <h3>Сексология</h3>
+            <p>Работа с&nbsp;чувственностью, отношениями, телесностью. Тренировка мышц тазового дна. Возвращение к&nbsp;живому желанию без стыда и&nbsp;долженствования.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n">ii</span>
+          <div>
+            <h3>Инициации зрелости</h3>
+            <p>Практики направленного воображения через символы и&nbsp;архетипы. Обходят защиты мозга и&nbsp;быстро вскрывают бессознательные стратегии, мешающие получать желаемое.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n">iii</span>
+          <div>
+            <h3>Телесная терапия</h3>
+            <p>Собственные телесные практики. Психосоматика по&nbsp;методу ГНМ (Германская Новая Медицина). Тело — первый ключ к&nbsp;изменениям, а&nbsp;не&nbsp;последний.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n">iv</span>
+          <div>
+            <h3>Архетипическая работа</h3>
+            <p>Проводник в&nbsp;базовые женские архетипы: Ведьма, Гейша, Амазонка, Фея. Тренинги-инициации по&nbsp;сказкам — живые и&nbsp;онлайн.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDEX / PROGRAMS ============ -->
+<section class="index" id="programs" aria-label="Практики и программы">
+  <div class="index__header reveal">
+    <div>
+      <span class="kicker">Практики · Contents</span>
+      <h2>Как со&nbsp;мной <em>работать</em></h2>
+    </div>
+    <div class="contents">Четыре формата<br/>— один метод</div>
+  </div>
+
+  <div class="index__grid">
+    <div class="index__col">
+      <article class="entry reveal">
+        <span class="entry__num">Chapter — 01</span>
+        <h3 class="entry__title">Сила <em>Ведьмы</em></h3>
+        <div class="entry__meta">Онлайн-тренинг · 1,5 месяца</div>
+        <p class="entry__body">
+          Инициация в&nbsp;архетип Ведьмы: своя воля, интуиция, магия действия. Возвращение права выбирать по-своему — без вины и&nbsp;оправданий.
+        </p>
+        <a href="#booking" class="entry__link" aria-label="Записаться на тренинг Сила Ведьмы">
+          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
+        </a>
+      </article>
+
+      <article class="entry reveal">
+        <span class="entry__num">Chapter — 02</span>
+        <h3 class="entry__title">Соблазн <em>Гейши</em></h3>
+        <div class="entry__meta">Онлайн-тренинг · 1,5 месяца</div>
+        <p class="entry__body">
+          Тренировка чувственного, тонкого, притягивающего. Гейша — не&nbsp;роль, а&nbsp;внутреннее состояние, из&nbsp;которого хочется жить и&nbsp;которое хочется любить.
+        </p>
+        <a href="#booking" class="entry__link" aria-label="Записаться на тренинг Соблазн Гейши">
+          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
+        </a>
+      </article>
+    </div>
+
+    <figure class="index__portrait reveal">
+      <img src="photos/03_moevir_portrait.jpeg" alt="Ольга Андреева — съёмка для MOEVIR, 2024" />
+      <figcaption class="credit">MOEVIR® · 2024</figcaption>
+    </figure>
+
+    <div class="index__col">
+      <article class="entry reveal">
+        <span class="entry__num">Chapter — 03</span>
+        <h3 class="entry__title">Личная <em>терапия</em></h3>
+        <div class="entry__meta">Онлайн-сессии · 60 минут</div>
+        <p class="entry__body">
+          Точечная работа один на&nbsp;один: разовые консультации или регулярные сессии. Сексология, инициации, тело — под конкретный запрос.
+        </p>
+        <a href="#booking" class="entry__link" aria-label="Записаться на личную сессию">
+          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
+        </a>
+      </article>
+
+      <article class="entry reveal">
+        <span class="entry__num">Chapter — 04</span>
+        <h3 class="entry__title">Ретрит <em>по сказке</em></h3>
+        <div class="entry__meta">Живой формат · 3&nbsp;дня</div>
+        <p class="entry__body">
+          Выездная инициация: маленькая группа, вилла, глубокая работа со&nbsp;сказкой. Ближайший — 14–16&nbsp;августа, час езды от&nbsp;Санкт-Петербурга.
+        </p>
+        <a href="#booking" class="entry__link" aria-label="Записаться на ретрит">
+          <span>Забронировать</span><span class="arr" aria-hidden="true">→</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section class="method" id="method" aria-label="Метод">
+  <div class="method__grid">
+    <div class="reveal">
+      <span class="kicker">Метод</span>
+      <h2 class="method__title">Что такое <em>инициации</em> и&nbsp;почему это работает</h2>
+      <div class="method__meta">
+        Символ · Образ · Архетип<br/>
+        Обход защит ума<br/>
+        Быстрые внутренние изменения
+      </div>
+    </div>
+
+    <div class="method__body reveal">
+      <p>
+        <strong>Инициации</strong> — это направленные практики воображения. Они работают через символы, образы и&nbsp;архетипы, минуя рациональные защиты. Без бесконечного копания в&nbsp;детских травмах.
+      </p>
+      <p>
+        Мы&nbsp;идём напрямую к&nbsp;бессознательным программам, которые тихо мешают: получать деньги под запрос, чувствовать своё тело, разрешать себе желать, быть видимой, быть выбранной.
+      </p>
+      <p>
+        Осознаём их, меняем — и&nbsp;идём жить дальше. Не&nbsp;через месяцы — через сессию или тренинг.
+      </p>
+      <p>
+        Инициации не&nbsp;волшебная таблетка: действия остаются на&nbsp;тебе. Но&nbsp;когда блок в&nbsp;бессознательном снят — <strong>действия начинают приводить к&nbsp;результату.</strong> Иногда так быстро, что это правда похоже на&nbsp;волшебство.
+      </p>
+      <div class="method__tags">
+        <span>Символы</span>
+        <span>Архетипы</span>
+        <span>Тело</span>
+        <span>Сказки</span>
+        <span>ГНМ</span>
+        <span>Тазовое дно</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORMATS ============ -->
+<section class="formats" id="formats" aria-label="Форматы и стоимость">
+  <div class="formats__header reveal">
+    <div>
+      <span class="kicker">Форматы работы</span>
+      <h2>Выбери <em>своё</em></h2>
+    </div>
+    <p>Четыре способа встретиться — от&nbsp;одной сессии до&nbsp;полутора месяцев ежедневной поддержки, где я&nbsp;веду за&nbsp;ручку.</p>
+  </div>
+
+  <div class="menu" role="list">
+    <div class="menu__row reveal" role="listitem">
+      <div class="roman">I</div>
+      <div>
+        <h3>Разовая <em>консультация</em></h3>
+      </div>
+      <p>Точечно, под конкретный запрос. Онлайн, 60&nbsp;минут. Ты&nbsp;уходишь с&nbsp;пониманием, что происходит и&nbsp;куда идти дальше.</p>
+      <div class="menu__price">
+        <span class="from">от</span>
+        <em>по запросу</em>
+      </div>
+    </div>
+
+    <div class="menu__row reveal" role="listitem">
+      <div class="roman">II</div>
+      <div>
+        <h3>Онлайн-<em>тренинг</em></h3>
+      </div>
+      <p>«Сила Ведьмы» или «Соблазн Гейши». 1,5 месяца групповой работы: инициации, практики, поддержка в&nbsp;чате.</p>
+      <div class="menu__price">
+        <span class="from">старт группы</span>
+        <em>раз в&nbsp;квартал</em>
+      </div>
+    </div>
+
+    <div class="menu__row reveal" role="listitem">
+      <div class="roman">III</div>
+      <div>
+        <h3>Выездной <em>ретрит</em></h3>
+      </div>
+      <p>Маленькая группа на&nbsp;вилле. Живая работа со&nbsp;сказкой. Баня, тишина, глубокая инициация без телефонов.</p>
+      <div class="menu__price">
+        <span class="from">ближайший</span>
+        <em>14–16 авг.</em>
+      </div>
+    </div>
+
+    <div class="menu__row reveal" role="listitem">
+      <div class="roman">IV</div>
+      <div>
+        <h3>Индивидуальное <em>сопровождение</em></h3>
+      </div>
+      <p>1,5 месяца ежедневной поддержки — веду за&nbsp;ручку через изменения. Для тех, кому нужно рядом.</p>
+      <div class="menu__price">
+        <span class="from">мест</span>
+        <em>ограниченно</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICES ============ -->
+<section class="voices" aria-label="Голоса">
+  <div class="voices__header reveal">
+    <div>
+      <span class="kicker">Голоса</span>
+      <h2>Что <em>говорят</em></h2>
+    </div>
+    <div class="contents">
+      Отзывы участниц<br/>тренингов и&nbsp;сессий
+    </div>
+  </div>
+
+  <div class="voices__grid">
+    <blockquote class="voice voice--1 reveal">
+      <p class="quote">После инициации на&nbsp;группе пришёл платёж, который задерживали — я&nbsp;уже сомневалась, что он&nbsp;вообще придёт. Это было тихое чудо, но&nbsp;я&nbsp;видела, как оно родилось из&nbsp;работы.</p>
+      <div class="attr">— Участница летней группы</div>
+    </blockquote>
+
+    <blockquote class="voice voice--2 reveal">
+      <p class="quote">Ольга не&nbsp;уговаривает и&nbsp;не&nbsp;спасает. Она видит и&nbsp;называет — точно, спокойно, без осуждения. От&nbsp;этого можно наконец выдохнуть.</p>
+      <div class="attr">— Личная терапия · 6&nbsp;мес.</div>
+    </blockquote>
+
+    <blockquote class="voice voice--3 reveal">
+      <p class="quote">Я&nbsp;пришла разобраться со&nbsp;страхом близости — а&nbsp;ушла с&nbsp;ощущением своего тела, которого у&nbsp;меня, кажется, никогда не&nbsp;было.</p>
+      <div class="attr">— Тренинг «Соблазн Гейши»</div>
+    </blockquote>
+
+    <blockquote class="voice voice--4 reveal">
+      <p class="quote">Три дня ретрита сдвинули больше, чем полгода привычной терапии. И&nbsp;это была не&nbsp;магия, а&nbsp;очень аккуратная и&nbsp;точная работа.</p>
+      <div class="attr">— Выездной ретрит · весна</div>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section class="booking" id="booking" aria-label="Запись">
+  <div class="booking__grid">
+    <div class="booking__left reveal">
+      <span class="kicker">Запись</span>
+      <h2>Начать —<br/><em>сейчас</em></h2>
+      <p>
+        Оставь заявку — я&nbsp;отвечу лично в&nbsp;течение суток, задам пару уточняющих вопросов и&nbsp;мы&nbsp;выберем формат под твой запрос.
+      </p>
+
+      <div class="booking__contacts">
+        <div class="item">
+          <span class="label">Прямая связь</span>
+          <a class="value" href="https://t.me/MiyaLaReina" target="_blank" rel="noopener">
+            <em>@</em>MiyaLaReina<span aria-hidden="true"> →</span>
+          </a>
+        </div>
+        <div class="item">
+          <span class="label">Канал</span>
+          <a class="value" href="https://t.me/karakovskaya" target="_blank" rel="noopener">
+            <em>@</em>karakovskaya<span aria-hidden="true"> →</span>
+          </a>
+        </div>
+        <div class="item">
+          <span class="label">Ответ</span>
+          <span class="value">В&nbsp;течение <em>24&nbsp;часов</em></span>
+        </div>
+      </div>
+    </div>
+
+    <form id="bookingForm" class="reveal" novalidate>
+      <div class="field" data-field="name">
+        <label for="f-name">Имя <span class="req">*</span></label>
+        <input id="f-name" type="text" name="name" autocomplete="given-name" required aria-required="true" />
+        <span class="error">Впиши, как к&nbsp;тебе обращаться</span>
+      </div>
+
+      <div class="field" data-field="contact">
+        <label for="f-contact">Telegram или e-mail <span class="req">*</span></label>
+        <input id="f-contact" type="text" name="contact" required aria-required="true" placeholder="@nickname или почта" />
+        <span class="error">Оставь способ, куда написать в&nbsp;ответ</span>
+      </div>
+
+      <div class="field" data-field="format">
+        <label for="f-format">Формат <span class="req">*</span></label>
+        <select id="f-format" name="format" required aria-required="true">
+          <option value="">— Выбери —</option>
+          <option value="consult">Разовая консультация</option>
+          <option value="training">Тренинг — Ведьма / Гейша</option>
+          <option value="retreat">Выездной ретрит</option>
+          <option value="support">Индивидуальное сопровождение</option>
+          <option value="unsure">Ещё не&nbsp;решила — помоги выбрать</option>
+        </select>
+        <span class="error">Выбери формат или «помоги выбрать»</span>
+      </div>
+
+      <div class="field" data-field="message">
+        <label for="f-message">Что происходит? Что хочется?</label>
+        <textarea id="f-message" name="message" placeholder="Пара строк — чтобы я&nbsp;пришла подготовленной"></textarea>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" id="f-consent" required aria-required="true" />
+        <span>Согласна с&nbsp;обработкой персональных данных и&nbsp;готова к&nbsp;личному ответу в&nbsp;мессенджере.</span>
+      </label>
+
+      <button class="submit" type="submit">
+        <span>Отправить заявку</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </button>
+    </form>
+
+    <div class="form__success" id="formSuccess" role="status" aria-live="polite">
+      <h3>Заявка <em>принята</em>.</h3>
+      <p>Я&nbsp;прочитаю лично и&nbsp;отвечу в&nbsp;течение суток в&nbsp;мессенджере. Пусть у&nbsp;тебя сейчас будет чуть больше воздуха.</p>
+      <small>— OA</small>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLOPHON ============ -->
+<footer class="colophon" aria-label="Колофон">
+  <div class="colophon__grid">
+    <div>
+      <h4>Masthead</h4>
+      <div class="colophon__mast">Ольга <em>Андреева</em></div>
+      <p class="colophon__tag">Сексолог. Тренер по&nbsp;инициациям психологической зрелости. Телесный терапевт. Автор метода.</p>
+    </div>
+    <div>
+      <h4>Contents</h4>
+      <ul class="colophon__list">
+        <li><a href="#dossier">Досье</a></li>
+        <li><a href="#programs">Практики</a></li>
+        <li><a href="#method">Метод</a></li>
+        <li><a href="#formats">Форматы</a></li>
+        <li><a href="#booking">Запись</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <ul class="colophon__list">
+        <li><a href="https://t.me/MiyaLaReina" target="_blank" rel="noopener">Telegram — @MiyaLaReina</a></li>
+        <li><a href="https://t.me/karakovskaya" target="_blank" rel="noopener">Канал — @karakovskaya</a></li>
+        <li>Санкт-Петербург · онлайн</li>
+      </ul>
+    </div>
+  </div>
+  <div class="colophon__bottom">
+    <span>© MMXXVI · Все права</span>
+    <span>Vol. I · The Initiation Issue</span>
+    <span>Photography — Editorial Series</span>
+  </div>
+</footer>
+
+<script>
+// Masthead compress on scroll
+(function(){
+  const mast = document.getElementById('masthead');
+  const onScroll = ()=>{
+    if(window.scrollY > 40){ mast.classList.add('compressed'); }
+    else { mast.classList.remove('compressed'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+
+// Reveal on scroll
+(function(){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+
+// Form validation + fake submit
+(function(){
+  const form = document.getElementById('bookingForm');
+  const success = document.getElementById('formSuccess');
+  if(!form) return;
+
+  const fields = {
+    name: {el:form.querySelector('[name=name]'), wrap:form.querySelector('[data-field=name]'), test:v=>v.trim().length>=2},
+    contact: {el:form.querySelector('[name=contact]'), wrap:form.querySelector('[data-field=contact]'), test:v=>{
+      const s=v.trim();
+      if(s.length<3) return false;
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+      const isTg = /^@?[A-Za-z0-9_]{3,}$/.test(s);
+      const isPhone = /^\+?[\d\s\-()]{7,}$/.test(s);
+      return isEmail || isTg || isPhone;
+    }},
+    format: {el:form.querySelector('[name=format]'), wrap:form.querySelector('[data-field=format]'), test:v=>v!==''},
+    message: {el:form.querySelector('[name=message]'), wrap:form.querySelector('[data-field=message]'), test:()=>true}
+  };
+
+  Object.values(fields).forEach(f=>{
+    f.el.addEventListener('blur', ()=>validate(f));
+    f.el.addEventListener('input', ()=>{
+      if(f.wrap.classList.contains('invalid')) validate(f);
+    });
+    f.el.addEventListener('change', ()=>validate(f));
+  });
+
+  function validate(f){
+    const ok = f.test(f.el.value);
+    f.wrap.classList.toggle('invalid', !ok);
+    f.wrap.classList.toggle('valid', ok && f.el.value.trim() !== '');
+    return ok;
+  }
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    let ok = true;
+    Object.values(fields).forEach(f=>{ if(!validate(f)) ok=false; });
+    const consent = document.getElementById('f-consent');
+    if(!consent.checked){
+      consent.parentElement.style.color = 'var(--blood-deep)';
+      ok=false;
+    } else {
+      consent.parentElement.style.color = '';
+    }
+    if(!ok){
+      const firstInvalid = form.querySelector('.invalid input, .invalid select, .invalid textarea');
+      if(firstInvalid) firstInvalid.focus();
+      return;
+    }
+    form.style.display='none';
+    success.classList.add('show');
+    success.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+})();
+</script>
+</body>
+</html>
