@@ -67,18 +67,24 @@ DEFAULT_PRODUCTS: list[dict[str, Any]] = [
     {
         "product_id": "seed-support",
         "title": "Индивидуальное сопровождение",
-        "description": "1,5 месяца ежедневной поддержки — веду за ручку через изменения.",
+        "description": (
+            "1,5 месяца ежедневной личной поддержки: веду за ручку через изменения — "
+            "сессии, практики, связь со мной каждый день. Мест мало, поэтому начинаем "
+            "с заявки: расскажите о своём запросе, и я отвечу лично в течение суток."
+        ),
         "price": 50000,
         "kind": "request",
         "delivery": "none",
         "delivery_content": "",
         "requires_slot": False,
+        "image": "/photos/02_portrait_black_mesh.jpeg",
     },
 ]
 
 SEEDED_FLAG = "seeded"
 SEED_V2_FLAG = "seed_v2"  # выставлен = сид с фиксированными id + дедуп выполнены
 SEED_V3_FLAG = "seed_v3"  # выставлен = сид-товарам добавлены фото и полные описания
+SEED_V4_FLAG = "seed_v4"  # выставлен = фото/описание добавлены и заявочным товарам
 
 
 def _seed_titles() -> set[str]:
@@ -124,7 +130,7 @@ def ensure_seed(store: BaseStore) -> bool:
 
     True, если товары созданы этим вызовом.
     """
-    if store.get_setting(SEED_V3_FLAG):
+    if store.get_setting(SEED_V4_FLAG):
         return False
 
     existing = products.list_products(store)
@@ -141,6 +147,7 @@ def ensure_seed(store: BaseStore) -> bool:
     store.set_setting(SEEDED_FLAG, True)
     store.set_setting(SEED_V2_FLAG, True)
     store.set_setting(SEED_V3_FLAG, True)
+    store.set_setting(SEED_V4_FLAG, True)
     return created
 
 

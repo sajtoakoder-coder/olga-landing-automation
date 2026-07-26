@@ -1486,6 +1486,7 @@ body.modal-open{overflow:hidden}
   .product-modal__body{grid-area:body;padding:36px 40px 10px}
   .product-modal__stub{grid-area:stub;margin:12px 40px 0}
   .product-modal form{grid-area:form;padding:26px 40px 34px;margin-top:16px}
+  .product-modal .form__success{grid-area:form;margin:16px 0 0}
 }
 
 /* ---------- COOKIE NOTICE ---------- */
@@ -2060,7 +2061,7 @@ body.modal-open{overflow:hidden}
     <div class="product-modal__body">
       <span class="kicker">Формат</span>
       <h3 class="product-modal__title" id="pmTitle"></h3>
-      <div class="product-modal__price"><small>стоимость</small><span id="pmPrice"></span></div>
+      <div class="product-modal__price"><small id="pmPriceSmall">стоимость</small><span id="pmPrice"></span></div>
       <p class="product-modal__desc" id="pmDesc"></p>
     </div>
     <div class="product-modal__stub" id="pmStub" hidden>
@@ -2072,16 +2073,20 @@ body.modal-open{overflow:hidden}
         <input id="pm-name" type="text" autocomplete="name" />
       </div>
       <div class="field">
-        <label for="pm-contact">Telegram для связи</label>
+        <label for="pm-contact"><span id="pmContactLabel">Telegram для связи</span> <span class="req" id="pmContactReq" hidden>*</span></label>
         <input id="pm-contact" type="text" placeholder="@nickname" />
       </div>
-      <div class="field">
+      <div class="field" id="pmEmailField">
         <label for="pm-email">Email <span class="req" id="pmEmailReq" hidden>*</span></label>
         <input id="pm-email" type="email" autocomplete="email" placeholder="you@mail.ru" />
       </div>
       <div class="field" id="pmSlotField" hidden>
         <label for="pm-slot">Время сессии <span class="req">*</span></label>
         <select id="pm-slot"><option value="">— выберите слот —</option></select>
+      </div>
+      <div class="field" id="pmMessageField" hidden>
+        <label for="pm-message">Что происходит? Что хочется?</label>
+        <textarea id="pm-message" placeholder="Пара строк — чтобы я&nbsp;пришла подготовленной"></textarea>
       </div>
       <div class="form__error" id="pmError" role="alert"></div>
       <button class="submit" type="submit">
@@ -2090,6 +2095,12 @@ body.modal-open{overflow:hidden}
       </button>
       <p class="pm-legal">Нажимая кнопку, вы даёте <a href="/consent" target="_blank" rel="noopener">согласие на&nbsp;обработку персональных данных</a> в&nbsp;соответствии с&nbsp;<a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
     </form>
+
+    <div class="form__success" id="pmSuccess" role="status" aria-live="polite">
+      <h3>Заявка <em>принята</em>.</h3>
+      <p>Я&nbsp;прочитаю лично и&nbsp;отвечу в&nbsp;течение суток в&nbsp;мессенджере. Пусть у&nbsp;тебя сейчас будет чуть больше воздуха.</p>
+      <small>— OA</small>
+    </div>
   </div>
 </div>
 
@@ -2334,23 +2345,18 @@ body.modal-open{overflow:hidden}
     arr.textContent = '→';
     button.appendChild(label);
     button.appendChild(arr);
-    button.addEventListener('click', function(){
-      if(product.kind === 'payment'){
-        if(window.__openPurchase){ window.__openPurchase(product); }
-        else { startPayment(product, button); }
-      }
+    function openProduct(){
+      if(window.__openPurchase){ window.__openPurchase(product); return; }
+      if(product.kind === 'payment'){ startPayment(product, button); }
       else { scrollToBooking(product.title); }
-    });
+    }
+    button.addEventListener('click', openProduct);
     price.appendChild(button);
     row.appendChild(price);
     // вся строка кликабельна (у неё и так cursor:pointer из дизайна)
     row.addEventListener('click', function(e){
       if(e.target.closest('.menu__action')) return;
-      if(product.kind === 'payment'){
-        if(window.__openPurchase){ window.__openPurchase(product); }
-        else { startPayment(product, button); }
-      }
-      else { scrollToBooking(product.title); }
+      openProduct();
     });
     return row;
   }
@@ -2394,15 +2400,22 @@ body.modal-open{overflow:hidden}
   const image = document.getElementById('pmImage');
   const titleEl = document.getElementById('pmTitle');
   const priceEl = document.getElementById('pmPrice');
+  const priceSmall = document.getElementById('pmPriceSmall');
   const descEl = document.getElementById('pmDesc');
   const stubNote = document.getElementById('pmStub');
   const form = document.getElementById('purchaseForm');
   const nameInput = document.getElementById('pm-name');
   const contactInput = document.getElementById('pm-contact');
+  const contactLabel = document.getElementById('pmContactLabel');
+  const contactReq = document.getElementById('pmContactReq');
+  const emailField = document.getElementById('pmEmailField');
   const emailInput = document.getElementById('pm-email');
   const emailReq = document.getElementById('pmEmailReq');
   const slotField = document.getElementById('pmSlotField');
   const slotSelect = document.getElementById('pm-slot');
+  const messageField = document.getElementById('pmMessageField');
+  const messageInput = document.getElementById('pm-message');
+  const successBlock = document.getElementById('pmSuccess');
   const errorBox = document.getElementById('pmError');
   const submitBtn = form.querySelector('.submit');
   const submitLabel = document.getElementById('pmSubmitLabel');
@@ -2443,11 +2456,15 @@ body.modal-open{overflow:hidden}
     lastFocus = document.activeElement;
     busy = false;
     form.reset();
+    form.style.display = '';
+    successBlock.classList.remove('show');
     errorBox.classList.remove('show');
     submitBtn.disabled = false;
 
+    const isRequest = product.kind === 'request';
     titleEl.textContent = product.title;
-    priceEl.textContent = formatPrice(product.price);
+    priceSmall.textContent = isRequest ? 'формат' : 'стоимость';
+    priceEl.textContent = isRequest ? 'по заявке' : formatPrice(product.price);
     descEl.textContent = product.description || '';
     descEl.style.display = product.description ? '' : 'none';
     if(product.image){
@@ -2459,15 +2476,30 @@ body.modal-open{overflow:hidden}
       media.hidden = true;
     }
     modal.querySelector('.product-modal__inner').classList.toggle('no-media', !product.image);
+
     const stub = window.__paymentMode !== 'live';
-    stubNote.hidden = !stub;
-    submitLabel.textContent = stub
-      ? 'Записаться и оплатить (тест)'
-      : 'Оплатить ' + formatPrice(product.price);
-    emailRequired = product.delivery === 'email' || !!product.requires_slot;
+    stubNote.hidden = isRequest || !stub;
+    if(isRequest){
+      submitLabel.textContent = 'Отправить заявку';
+      contactLabel.textContent = 'Telegram или e-mail';
+      contactReq.hidden = false;
+      emailField.hidden = true;
+      slotField.hidden = true;
+      messageField.hidden = false;
+      emailRequired = false;
+    } else {
+      submitLabel.textContent = stub
+        ? 'Записаться и оплатить (тест)'
+        : 'Оплатить ' + formatPrice(product.price);
+      contactLabel.textContent = 'Telegram для связи';
+      contactReq.hidden = true;
+      emailField.hidden = false;
+      messageField.hidden = true;
+      emailRequired = product.delivery === 'email' || !!product.requires_slot;
+      if(product.requires_slot){ loadSlots(); }
+      else { slotField.hidden = true; }
+    }
     emailReq.hidden = !emailRequired;
-    if(product.requires_slot){ loadSlots(); }
-    else { slotField.hidden = true; }
 
     modal.hidden = false;
     modal.classList.add('open');
@@ -2488,6 +2520,37 @@ body.modal-open{overflow:hidden}
     e.preventDefault();
     if(busy || !current) return;
     errorBox.classList.remove('show');
+
+    if(current.kind === 'request'){
+      const name = nameInput.value.trim();
+      const contact = contactInput.value.trim();
+      if(name.length < 2){ fail('Впишите, как к вам обращаться.'); return; }
+      if(contact.length < 3){ fail('Оставьте Telegram или e-mail — куда написать в ответ.'); return; }
+      busy = true;
+      submitBtn.disabled = true;
+      fetch('/api/booking', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: name,
+          contact: contact,
+          format: current.title,
+          message: messageInput.value
+        })
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if(!data || data.ok !== true){ throw new Error(data && data.error || ''); }
+        busy = false;
+        form.style.display = 'none';
+        successBlock.classList.add('show');
+      }).catch(function(err){
+        const message = err && err.message && /[а-яА-Я]/.test(err.message)
+          ? err.message
+          : 'Что-то пошло не так. Напишите напрямую в Telegram @MiyaLaReina.';
+        fail(message);
+      });
+      return;
+    }
+
     const email = emailInput.value.trim();
     if(emailRequired && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
       fail('Укажите корректный email — на него придёт доступ и ссылка.');
