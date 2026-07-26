@@ -77,8 +77,10 @@ def add_product(
     requires_slot: bool = False,
     is_visible: bool = True,
     sort: int | None = None,
+    product_id: str | None = None,
 ) -> dict[str, Any]:
-    """Создать товар."""
+    """Создать товар. product_id задаётся только сидом (детерминированные id
+    делают повторный сид идемпотентным — гонка не плодит дубли)."""
     record = {
         "title": _clean_str(title, "название", MAX_TITLE_LEN, required=True),
         "description": _clean_str(description, "описание", MAX_DESCRIPTION_LEN, required=False),
@@ -92,6 +94,8 @@ def add_product(
         "is_visible": bool(is_visible),
         "sort": int(sort) if sort is not None else _next_sort(store),
     }
+    if product_id:
+        record["id"] = str(product_id)
     return store.put(KIND, record)
 
 
