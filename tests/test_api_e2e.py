@@ -194,8 +194,28 @@ def test_legal_pages_served(base_url):
     assert "Согласие" in text
     assert "отзыв согласия" in text
 
+    status, body, _ = http("GET", f"{base_url}/offer")
+    assert status == 200
+    text = body.decode("utf-8")
+    assert "оферта" in text.lower()
+    assert "5 000 ₽" in text
+    assert "ЮKassa" in text
+    assert "возврат" in text.lower()
+
+    status, body, _ = http("GET", f"{base_url}/payment-info")
+    assert status == 200
+    text = body.decode("utf-8")
+    assert "Способы оплаты" in text
+    assert "МИР, Visa, Mastercard" in text
+    assert "10 рабочих дней" in text
+
     # и по прямым путям тоже
-    for path in ("/site/privacy.html", "/site/consent.html"):
+    for path in (
+        "/site/privacy.html",
+        "/site/consent.html",
+        "/site/offer.html",
+        "/site/payment-info.html",
+    ):
         status, _, _ = http("GET", f"{base_url}{path}")
         assert status == 200, path
 
@@ -207,6 +227,8 @@ def test_index_has_cookie_notice_and_legal_links(base_url):
     assert 'id="cookieBar"' in text
     assert 'href="/privacy"' in text
     assert 'href="/consent"' in text
+    assert 'href="/offer"' in text
+    assert 'href="/payment-info"' in text
 
 
 def test_photos_served(base_url):

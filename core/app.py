@@ -374,7 +374,7 @@ button.pay .arr{font-family:var(--serif);font-style:italic;font-size:18px;letter
     __SLOT_FIELD__
     <div class="error" id="payError"></div>
     <button class="pay" type="submit"><span>__BUTTON__</span><span class="arr">→</span></button>
-    <p class="legal">Нажимая кнопку, вы даёте <a href="/consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+    <p class="legal">Нажимая кнопку, вы принимаете условия <a href="/offer" target="_blank" rel="noopener">публичной оферты</a> и даёте <a href="/consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>. Условия <a href="/payment-info" target="_blank" rel="noopener">оплаты и возврата</a>.</p>
   </form>
 </div>
 <div class="back"><a href="__BACK_URL__">← вернуться на сайт</a></div>

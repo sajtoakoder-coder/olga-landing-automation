@@ -27,6 +27,8 @@ STATIC_ROUTES = {
     "/success.html": "success.html",
     "/privacy": "privacy.html",
     "/consent": "consent.html",
+    "/offer": "offer.html",
+    "/payment-info": "payment-info.html",
 }
 
 

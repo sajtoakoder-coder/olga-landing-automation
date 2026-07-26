@@ -24,6 +24,8 @@
     { "src": "/success", "dest": "/site/success.html" },
     { "src": "/privacy", "dest": "/site/privacy.html" },
     { "src": "/consent", "dest": "/site/consent.html" },
+    { "src": "/offer", "dest": "/site/offer.html" },
+    { "src": "/payment-info", "dest": "/site/payment-info.html" },
     { "src": "/", "dest": "/site/index.html" },
     { "src": "/photos/(.*)", "dest": "/site/photos/$1" },
     { "src": "/site/(.*)", "dest": "/site/$1" }

@@ -1172,8 +1172,8 @@ form::before{
 .colophon__grid{
   max-width:1280px;margin:0 auto;
   display:grid;
-  grid-template-columns:1.4fr 1fr 1fr;
-  gap:60px;
+  grid-template-columns:1.4fr 0.8fr 0.9fr 1.1fr;
+  gap:48px;
   padding-bottom:40px;
   border-bottom:1px solid var(--dust-2);
 }
@@ -1988,11 +1988,19 @@ body.modal-open{overflow:hidden}
         <li>Санкт-Петербург · онлайн</li>
       </ul>
     </div>
+    <div>
+      <h4>Документы</h4>
+      <ul class="colophon__list">
+        <li><a href="/offer">Публичная оферта</a></li>
+        <li><a href="/payment-info">Оплата и возврат</a></li>
+        <li><a href="/privacy">Политика конфиденциальности</a></li>
+        <li><a href="/consent">Согласие на обработку данных</a></li>
+      </ul>
+    </div>
   </div>
   <div class="colophon__bottom">
     <span>© MMXXVI · Все права</span>
-    <span><a href="/privacy">Политика конфиденциальности</a></span>
-    <span><a href="/consent">Согласие на обработку данных</a></span>
+    <span id="requisites">Андреева Ольга Леонидовна · ИНН —</span>
     <span>Vol. I · The Initiation Issue</span>
   </div>
 </footer>
@@ -2099,7 +2107,7 @@ body.modal-open{overflow:hidden}
         <span id="pmSubmitLabel">Записаться и оплатить</span>
         <span class="arr" aria-hidden="true">→</span>
       </button>
-      <p class="pm-legal">Нажимая кнопку, вы даёте <a href="/consent" target="_blank" rel="noopener">согласие на&nbsp;обработку персональных данных</a> в&nbsp;соответствии с&nbsp;<a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+      <p class="pm-legal">Нажимая кнопку, вы принимаете условия <a href="/offer" target="_blank" rel="noopener">публичной оферты</a> и даёте <a href="/consent" target="_blank" rel="noopener">согласие на&nbsp;обработку персональных данных</a> в&nbsp;соответствии с&nbsp;<a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>. Условия <a href="/payment-info" target="_blank" rel="noopener">оплаты и&nbsp;возврата</a>.</p>
     </form>
 
     <div class="form__success" id="pmSuccess" role="status" aria-live="polite">
