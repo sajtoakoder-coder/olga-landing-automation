@@ -45,7 +45,8 @@ def send_message(chat_id: str, text: str) -> bool:
         headers={"Content-Type": "application/json"},
     )
     try:
-        with urllib.request.urlopen(request, timeout=15) as response:
+        # короче лимита serverless-функции: уведомление не должно подвесить запрос
+        with urllib.request.urlopen(request, timeout=8) as response:
             body = json.loads(response.read().decode("utf-8"))
         if not body.get("ok"):
             logger.error("TG sendMessage не ok: %s", body)

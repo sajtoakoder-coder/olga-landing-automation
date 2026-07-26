@@ -668,6 +668,10 @@ async def process_update(store: BaseStore, update: dict[str, Any]) -> None:
     if not token:
         logger.error("TELEGRAM_BOT_TOKEN не задан — апдейт пропущен")
         return
+    from aiogram.client.session.aiohttp import AiohttpSession
+
     dispatcher = create_dispatcher(store)
-    async with Bot(token=token) as bot:
+    # таймаут короче лимита serverless-функции: лучше потерять ответ, чем словить
+    # kill функции и бесконечные ретраи апдейта от Telegram
+    async with Bot(token=token, session=AiohttpSession(timeout=8)) as bot:
         await dispatcher.feed_raw_update(bot, update)
