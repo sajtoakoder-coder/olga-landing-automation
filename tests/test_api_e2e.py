@@ -151,6 +151,18 @@ def test_index_served_with_formats_section(base_url):
     assert 'id="bookingForm"' in text
     assert "/api/products" in text  # динамическая загрузка подключена
     assert "/api/booking" in text
+    # галереи отзывов и сертификатов
+    assert 'id="reviews"' in text
+    assert 'id="certificates"' in text
+    assert 'id="lightbox"' in text
+
+
+def test_review_and_certificate_photos_served(base_url):
+    for path in ("/photos/reviews/r01.jpg", "/photos/certificates/c01.jpg"):
+        status, body, headers = http("GET", f"{base_url}{path}")
+        assert status == 200, path
+        assert headers.get("Content-Type") == "image/jpeg"
+        assert len(body) > 10_000
 
 
 def test_success_page_served(base_url):

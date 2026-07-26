@@ -1250,6 +1250,97 @@ form::before{
 .form__error a{border-bottom:1px solid currentColor}
 .submit:disabled{opacity:.6;cursor:wait}
 
+/* ---------- REVIEWS: screenshot contact sheet ---------- */
+.shots{max-width:1280px;margin:90px auto 0;padding-top:44px;border-top:1px solid var(--dust-2)}
+.shots__head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:30px;flex-wrap:wrap}
+.shots__title{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3vw,34px);line-height:1.05}
+.shots__title em{font-style:italic;color:var(--blood)}
+.shots__meta{font-family:var(--sans);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust)}
+.shots__wall{display:flex;gap:14px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--dust-2) transparent}
+.shots__wall::-webkit-scrollbar{height:4px}
+.shots__wall::-webkit-scrollbar-thumb{background:var(--dust-2)}
+.shots__wall::-webkit-scrollbar-track{background:transparent}
+.shot{flex:0 0 auto;scroll-snap-align:start;position:relative;cursor:zoom-in;padding:0;border:0;background:transparent}
+.shot img{height:232px;width:auto;display:block;border:1px solid var(--dust-2);filter:saturate(.9) contrast(.98);transition:filter .25s, border-color .25s}
+.shot:hover img{filter:saturate(1) contrast(1);border-color:var(--blood)}
+.shot:focus-visible{outline:1px dashed var(--blood);outline-offset:4px}
+.shots.expanded .shots__wall{display:block;column-count:4;column-gap:14px;overflow:visible;padding-bottom:0}
+.shots.expanded .shot{display:block;width:100%;margin:0 0 14px;break-inside:avoid}
+.shots.expanded .shot img{width:100%;height:auto}
+.shots__toggle{
+  margin-top:20px;
+  font-family:var(--serif);font-style:italic;font-size:19px;color:var(--blood);
+  padding:10px 0;min-height:44px;
+  display:inline-flex;align-items:center;gap:12px;
+  transition:gap .35s;position:relative;cursor:pointer;
+}
+.shots__toggle::after{content:'';position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--blood)}
+.shots__toggle:hover{gap:20px;color:var(--paper)}
+.shots__toggle:hover::after{background:var(--paper)}
+.shots__toggle:focus-visible{outline:1px dashed var(--blood);outline-offset:6px}
+.shots__toggle .arr{font-family:var(--sans);font-style:normal;font-size:14px}
+@media (max-width:900px){
+  .shots{margin-top:56px;padding-top:32px}
+  .shot img{height:168px}
+  .shots.expanded .shots__wall{column-count:2}
+}
+
+/* ---------- CERTIFICATES ---------- */
+.certs{background:var(--paper);color:var(--ink);padding:150px 60px}
+.certs__inner{max-width:1180px;margin:0 auto}
+.certs__header{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:60px}
+.certs__header h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5.4vw,84px);line-height:0.95;letter-spacing:-0.015em}
+.certs__header h2 em{font-style:italic;color:var(--blood-deep)}
+.certs__header .kicker{color:var(--blood-deep)}
+.certs__header p{font-family:var(--serif-italic);font-style:italic;font-size:20px;line-height:1.5;color:var(--dust-2)}
+.certs__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:28px 26px}
+.cert{padding:0;border:0;background:transparent;cursor:zoom-in;text-align:left;display:block}
+.cert img{width:100%;height:150px;object-fit:cover;object-position:top center;display:block;border:1px solid rgba(20,16,16,0.35);filter:sepia(.06);transition:border-color .25s, filter .25s}
+.cert:hover img{border-color:var(--blood-deep);filter:sepia(0)}
+.cert:focus-visible{outline:1px dashed var(--blood-deep);outline-offset:4px}
+.cert__label{display:block;margin-top:12px;font-family:var(--sans);font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--dust-2);line-height:1.8}
+@media (max-width:900px){
+  .certs{padding:80px 22px}
+  .certs__header{grid-template-columns:1fr;gap:18px;margin-bottom:40px}
+  .certs__header p{font-size:17px}
+  .certs__grid{grid-template-columns:repeat(2,1fr);gap:22px 16px}
+  .cert img{height:120px}
+}
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(10,9,8,0.94);
+  display:flex;align-items:center;justify-content:center;
+  padding:30px;
+}
+.lightbox[hidden]{display:none}
+.lightbox.open{animation:fadeIn .25s ease both}
+.lightbox img{max-width:min(92vw,1040px);max-height:80vh;width:auto;height:auto;border:1px solid var(--dust-2);box-shadow:0 30px 80px rgba(0,0,0,0.65)}
+.lightbox__caption{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  font-family:var(--sans);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust);
+  white-space:nowrap;
+}
+.lightbox__close,
+.lightbox__nav{
+  position:absolute;color:var(--paper);cursor:pointer;
+  min-width:44px;min-height:44px;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .2s;
+}
+.lightbox__close{top:16px;right:20px;font-family:var(--sans);font-size:28px;line-height:1}
+.lightbox__nav{top:50%;transform:translateY(-50%);font-family:var(--serif);font-style:italic;font-size:32px}
+.lightbox__nav--prev{left:12px}
+.lightbox__nav--next{right:12px}
+.lightbox__close:hover,.lightbox__nav:hover{color:var(--blood)}
+.lightbox__close:focus-visible,.lightbox__nav:focus-visible{outline:1px dashed var(--blood);outline-offset:4px}
+body.lightbox-open{overflow:hidden}
+@media (max-width:900px){
+  .lightbox{padding:16px}
+  .lightbox img{max-width:94vw;max-height:72vh}
+}
+
 /* ---------- Reveal on scroll ---------- */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:translateY(0)}
@@ -1610,6 +1701,70 @@ form::before{
       <div class="attr">— Выездной ретрит · весна</div>
     </blockquote>
   </div>
+
+  <div class="shots" id="reviews">
+    <div class="shots__head reveal">
+      <h3 class="shots__title">Скриншоты — <em>как есть</em></h3>
+      <div class="shots__meta">Из переписок · без ретуши</div>
+    </div>
+    <div class="shots__wall" aria-label="Отзывы участниц — скриншоты переписки">
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r01.jpg" width="924" height="518" loading="lazy" alt="Отзыв участницы — скриншот переписки, 1 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r02.jpg" width="1080" height="734" loading="lazy" alt="Отзыв участницы — скриншот переписки, 2 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r03.jpg" width="1074" height="1222" loading="lazy" alt="Отзыв участницы — скриншот переписки, 3 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r04.jpg" width="1179" height="888" loading="lazy" alt="Отзыв участницы — скриншот переписки, 4 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r05.jpg" width="1093" height="1069" loading="lazy" alt="Отзыв участницы — скриншот переписки, 5 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r06.jpg" width="728" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 6 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r07.jpg" width="1138" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 7 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r08.jpg" width="1179" height="699" loading="lazy" alt="Отзыв участницы — скриншот переписки, 8 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r09.jpg" width="1057" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 9 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r10.jpg" width="749" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 10 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r11.jpg" width="815" height="455" loading="lazy" alt="Отзыв участницы — скриншот переписки, 11 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r12.jpg" width="936" height="1000" loading="lazy" alt="Отзыв участницы — скриншот переписки, 12 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r13.jpg" width="853" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 13 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r14.jpg" width="856" height="626" loading="lazy" alt="Отзыв участницы — скриншот переписки, 14 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r15.jpg" width="997" height="1280" loading="lazy" alt="Отзыв участницы — скриншот переписки, 15 из 16" /></button>
+      <button type="button" class="shot" data-group="reviews" data-caption="Отзыв из переписки"><img src="photos/reviews/r16.jpg" width="1124" height="1257" loading="lazy" alt="Отзыв участницы — скриншот переписки, 16 из 16" /></button>
+    </div>
+    <button type="button" class="shots__toggle" id="shotsToggle" aria-expanded="false" aria-controls="reviews">
+      <span class="label">Развернуть все отзывы</span>
+      <span class="arr" aria-hidden="true">↓</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ CERTIFICATES ============ -->
+<section class="certs" id="certificates" aria-label="Дипломы и сертификаты">
+  <div class="certs__inner">
+    <div class="certs__header reveal">
+      <div>
+        <span class="kicker">Документы</span>
+        <h2>Дипломы и&nbsp;<em>сертификаты</em></h2>
+      </div>
+      <p>Метод опирается не&nbsp;только на&nbsp;практику: профессиональная переподготовка по&nbsp;инициациям и&nbsp;сертификаты по&nbsp;сексологии — вот они, документально.</p>
+    </div>
+    <div class="certs__grid reveal">
+      <button type="button" class="cert" data-group="certs" data-caption="Диплом · Инициации психологической зрелости">
+        <img src="photos/certificates/c01.jpg" width="1280" height="908" loading="lazy" alt="Диплом о профессиональной переподготовке — «Инициации психологической зрелости», 254 часа" />
+        <span class="cert__label">Диплом · Инициации психологической зрелости · 254&nbsp;ч</span>
+      </button>
+      <button type="button" class="cert" data-group="certs" data-caption="Сертификат · Консультирование и коучинг в сексологии">
+        <img src="photos/certificates/c02.jpg" width="1179" height="808" loading="lazy" alt="Сертификат — основы психологического консультирования и коучинга в сексологии, 50 часов" />
+        <span class="cert__label">Сертификат · Коучинг в&nbsp;сексологии · 50&nbsp;ч</span>
+      </button>
+      <button type="button" class="cert" data-group="certs" data-caption="New York Sexology Center · Certified Sexologist">
+        <img src="photos/certificates/c03.jpg" width="1179" height="886" loading="lazy" alt="Сертификат New York Sexology Center — Certified Sexologist" />
+        <span class="cert__label">New York Sexology Center · Certified Sexologist</span>
+      </button>
+      <button type="button" class="cert" data-group="certs" data-caption="Сертификат · Работа с оргазмической дисфункцией">
+        <img src="photos/certificates/c04.jpg" width="1179" height="853" loading="lazy" alt="Сертификат — «Женский оргазм от А до Я», работа с оргазмической дисфункцией, 22 часа" />
+        <span class="cert__label">Сертификат · Женская чувственность · 22&nbsp;ч</span>
+      </button>
+      <button type="button" class="cert" data-group="certs" data-caption="Московский институт сексологии · 96 часов">
+        <img src="photos/certificates/c05.jpg" width="884" height="1280" loading="lazy" alt="Сертификат Московского института сексологии — консультирование и коучинг в сексологии, 96 часов" />
+        <span class="cert__label">Московский институт сексологии · 96&nbsp;ч</span>
+      </button>
+    </div>
+  </div>
 </section>
 
 <!-- ============ BOOKING ============ -->
@@ -1730,6 +1885,15 @@ form::before{
     <span>Photography — Editorial Series</span>
   </div>
 </footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр изображения" hidden>
+  <button type="button" class="lightbox__close" aria-label="Закрыть просмотр">×</button>
+  <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее изображение">←</button>
+  <img id="lightboxImg" src="" alt="" />
+  <button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Следующее изображение">→</button>
+  <div class="lightbox__caption" id="lightboxCaption"></div>
+</div>
 
 <script>
 // Masthead compress on scroll
@@ -2004,6 +2168,102 @@ form::before{
     rows.forEach(function(row){ menu.appendChild(row); });
     updateFormatSelect(data.products);
   }).catch(function(){ /* API недоступен — остаются статичные карточки */ });
+})();
+
+// Reviews expand toggle + lightbox for reviews/certificates
+(function(){
+  const shots = document.getElementById('reviews');
+  const toggle = document.getElementById('shotsToggle');
+  if(shots && toggle){
+    toggle.addEventListener('click', () => {
+      const expanded = shots.classList.toggle('expanded');
+      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      toggle.querySelector('.label').textContent = expanded ? 'Свернуть отзывы' : 'Развернуть все отзывы';
+      toggle.querySelector('.arr').textContent = expanded ? '↑' : '↓';
+      if(!expanded){ shots.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  }
+
+  const lightbox = document.getElementById('lightbox');
+  if(!lightbox) return;
+  const imgEl = document.getElementById('lightboxImg');
+  const captionEl = document.getElementById('lightboxCaption');
+  const closeBtn = lightbox.querySelector('.lightbox__close');
+  const prevBtn = lightbox.querySelector('.lightbox__nav--prev');
+  const nextBtn = lightbox.querySelector('.lightbox__nav--next');
+
+  const groups = {};
+  document.querySelectorAll('button[data-group]').forEach(btn => {
+    const img = btn.querySelector('img');
+    if(!img) return;
+    const group = btn.dataset.group;
+    groups[group] = groups[group] || [];
+    const item = {
+      src: img.currentSrc || img.src,
+      alt: img.alt || '',
+      caption: btn.dataset.caption || ''
+    };
+    const index = groups[group].push(item) - 1;
+    btn.addEventListener('click', () => open(group, index));
+  });
+
+  let currentGroup = null;
+  let currentIndex = 0;
+  let lastFocus = null;
+
+  function render(){
+    const list = groups[currentGroup] || [];
+    const item = list[currentIndex];
+    if(!item) return;
+    imgEl.src = item.src;
+    imgEl.alt = item.alt;
+    captionEl.textContent = item.caption + ' · ' + (currentIndex + 1) + ' / ' + list.length;
+    const many = list.length > 1;
+    prevBtn.style.display = many ? '' : 'none';
+    nextBtn.style.display = many ? '' : 'none';
+    // подгружаем соседей заранее
+    [currentIndex - 1, currentIndex + 1].forEach(i => {
+      const neighbour = list[(i + list.length) % list.length];
+      if(neighbour){ new Image().src = neighbour.src; }
+    });
+  }
+
+  function open(group, index){
+    currentGroup = group;
+    currentIndex = index;
+    lastFocus = document.activeElement;
+    render();
+    lightbox.hidden = false;
+    lightbox.classList.add('open');
+    document.body.classList.add('lightbox-open');
+    closeBtn.focus();
+  }
+
+  function close(){
+    lightbox.classList.remove('open');
+    lightbox.hidden = true;
+    document.body.classList.remove('lightbox-open');
+    imgEl.src = '';
+    if(lastFocus && lastFocus.focus){ lastFocus.focus(); }
+  }
+
+  function step(delta){
+    const list = groups[currentGroup] || [];
+    if(!list.length) return;
+    currentIndex = (currentIndex + delta + list.length) % list.length;
+    render();
+  }
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', () => step(-1));
+  nextBtn.addEventListener('click', () => step(1));
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) close(); });
+  document.addEventListener('keydown', (e) => {
+    if(lightbox.hidden) return;
+    if(e.key === 'Escape') close();
+    else if(e.key === 'ArrowLeft') step(-1);
+    else if(e.key === 'ArrowRight') step(1);
+  });
 })();
 </script>
 </body>

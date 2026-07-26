@@ -8,3 +8,6 @@ data/
 
 .vercel
 .env*
+
+# исходники фото (сжатые версии — в site/photos/)
+products+rewiews/
