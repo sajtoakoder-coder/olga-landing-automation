@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": ["bot/**", "services/**", "storage/**", "core/**"]
+      }
+    },
+    { "src": "site/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/booking", "dest": "/api/booking.py" },
+    { "src": "/api/products", "dest": "/api/products.py" },
+    { "src": "/api/slots", "dest": "/api/slots.py" },
+    { "src": "/api/pay", "dest": "/api/pay.py" },
+    { "src": "/api/cron", "dest": "/api/cron.py" },
+    { "src": "/api/payment/create", "dest": "/api/payment/create.py" },
+    { "src": "/api/payment/webhook", "dest": "/api/payment/webhook.py" },
+    { "src": "/api/payment/status", "dest": "/api/payment/status.py" },
+    { "src": "/api/bot/webhook", "dest": "/api/bot/webhook.py" },
+    { "src": "/pay", "dest": "/api/pay.py" },
+    { "src": "/success", "dest": "/site/success.html" },
+    { "src": "/", "dest": "/site/index.html" },
+    { "src": "/photos/(.*)", "dest": "/site/photos/$1" },
+    { "src": "/site/(.*)", "dest": "/site/$1" }
+  ],
+  "crons": [
+    { "path": "/api/cron", "schedule": "0 6 * * *" }
+  ]
+}

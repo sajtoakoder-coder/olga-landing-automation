@@ -1211,6 +1211,45 @@ form::before{
   .colophon__bottom{flex-direction:column;gap:10px;padding-top:20px}
 }
 
+/* ---------- Functional add-ons: payment buttons + form states ---------- */
+.menu__action{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:18px;
+  color:var(--blood-deep);
+  padding:8px 0;
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  transition:gap .35s;
+  position:relative;
+  margin-top:12px;
+  cursor:pointer;
+  background:transparent;
+  border:0;
+}
+.menu__action::after{content:'';position:absolute;left:0;right:0;bottom:6px;height:1px;background:var(--blood-deep)}
+.menu__action:hover{gap:20px}
+.menu__action:focus-visible{outline:1px dashed var(--blood-deep);outline-offset:6px}
+.menu__action:disabled{opacity:.5;cursor:wait}
+.menu__action .arr{font-family:var(--sans);font-style:normal;font-size:14px}
+.menu__price .value{display:block}
+@media (max-width:900px){
+  .menu__action{font-size:17px;margin-top:10px}
+}
+.form__error{
+  display:none;
+  font-family:var(--sans);
+  font-size:13px;
+  letter-spacing:0.03em;
+  color:var(--blood-deep);
+  line-height:1.55;
+}
+.form__error.show{display:block;animation:fadeIn .4s ease both}
+.form__error a{border-bottom:1px solid currentColor}
+.submit:disabled{opacity:.6;cursor:wait}
+
 /* ---------- Reveal on scroll ---------- */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:translateY(0)}
@@ -1643,6 +1682,11 @@ form::before{
         <span>Отправить заявку</span>
         <span class="arr" aria-hidden="true">→</span>
       </button>
+
+      <div class="form__error" id="formError" role="alert">
+        Что-то пошло не так — заявка не отправилась. Напишите напрямую в Telegram:
+        <a href="https://t.me/MiyaLaReina" target="_blank" rel="noopener">@MiyaLaReina</a>
+      </div>
     </form>
 
     <div class="form__success" id="formSuccess" role="status" aria-live="polite">
@@ -1750,7 +1794,7 @@ form::before{
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 
-// Form validation + fake submit
+// Form validation + submit to /api/booking
 (function(){
   const form = document.getElementById('bookingForm');
   const success = document.getElementById('formSuccess');
@@ -1801,10 +1845,165 @@ form::before{
       if(firstInvalid) firstInvalid.focus();
       return;
     }
-    form.style.display='none';
-    success.classList.add('show');
-    success.scrollIntoView({behavior:'smooth', block:'center'});
+
+    const errorBox = document.getElementById('formError');
+    const submitBtn = form.querySelector('.submit');
+    errorBox.classList.remove('show');
+    submitBtn.disabled = true;
+
+    const formatSelect = fields.format.el;
+    const formatLabel = formatSelect.selectedIndex > -1
+      ? formatSelect.options[formatSelect.selectedIndex].text
+      : formatSelect.value;
+
+    fetch('/api/booking', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: fields.name.el.value,
+        contact: fields.contact.el.value,
+        format: formatLabel,
+        message: fields.message.el.value
+      })
+    }).then(r => r.json()).then(data => {
+      if(!data || data.ok !== true){ throw new Error(data && data.error || 'not ok'); }
+      form.style.display='none';
+      success.classList.add('show');
+      success.scrollIntoView({behavior:'smooth', block:'center'});
+    }).catch(() => {
+      errorBox.classList.add('show');
+    }).finally(() => {
+      submitBtn.disabled = false;
+    });
   });
+})();
+
+// Dynamic products in #formats from /api/products (fallback: static markup stays)
+(function(){
+  if(!window.fetch) return;
+  const menu = document.querySelector('#formats .menu');
+  const formatSelect = document.querySelector('#bookingForm [name=format]');
+  const ROMANS = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+  function formatPrice(value){
+    return value.toLocaleString('ru-RU') + ' ₽';
+  }
+
+  function scrollToBooking(title){
+    if(formatSelect && title){
+      for(const option of formatSelect.options){
+        if(option.text === title || option.value === title){
+          formatSelect.value = option.value;
+          break;
+        }
+      }
+      formatSelect.dispatchEvent(new Event('change'));
+    }
+    const booking = document.getElementById('booking');
+    if(booking) booking.scrollIntoView({behavior:'smooth'});
+  }
+
+  function startPayment(product, button){
+    button.disabled = true;
+    fetch('/api/payment/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({product_id: product.id})
+    }).then(r => r.json()).then(data => {
+      if(!data || data.ok !== true || !data.url){ throw new Error('create failed'); }
+      window.location = data.url;
+    }).catch(() => {
+      button.disabled = false;
+      scrollToBooking(product.title);
+    });
+  }
+
+  function buildRow(product, index){
+    const row = document.createElement('div');
+    row.className = 'menu__row';
+    row.setAttribute('role', 'listitem');
+
+    const roman = document.createElement('div');
+    roman.className = 'roman';
+    roman.textContent = ROMANS[index] || String(index + 1);
+    row.appendChild(roman);
+
+    const titleWrap = document.createElement('div');
+    const title = document.createElement('h3');
+    title.textContent = product.title;
+    titleWrap.appendChild(title);
+    row.appendChild(titleWrap);
+
+    const description = document.createElement('p');
+    description.textContent = product.description || '';
+    row.appendChild(description);
+
+    const price = document.createElement('div');
+    price.className = 'menu__price';
+    const from = document.createElement('span');
+    from.className = 'from';
+    const value = document.createElement('span');
+    value.className = 'value';
+    if(product.kind === 'payment'){
+      from.textContent = 'стоимость';
+      value.textContent = formatPrice(product.price);
+    } else {
+      from.textContent = 'формат';
+      const em = document.createElement('em');
+      em.textContent = 'по заявке';
+      value.appendChild(em);
+    }
+    price.appendChild(from);
+    price.appendChild(value);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'menu__action';
+    const label = document.createElement('span');
+    label.textContent = product.kind === 'payment' ? 'Записаться и оплатить' : 'Оставить заявку';
+    const arr = document.createElement('span');
+    arr.className = 'arr';
+    arr.setAttribute('aria-hidden', 'true');
+    arr.textContent = '→';
+    button.appendChild(label);
+    button.appendChild(arr);
+    button.addEventListener('click', function(){
+      if(product.kind === 'payment'){ startPayment(product, button); }
+      else { scrollToBooking(product.title); }
+    });
+    price.appendChild(button);
+    row.appendChild(price);
+    return row;
+  }
+
+  function updateFormatSelect(products){
+    if(!formatSelect) return;
+    const previous = formatSelect.value;
+    while(formatSelect.options.length > 1){ formatSelect.remove(1); }
+    products.forEach(function(product){
+      const option = document.createElement('option');
+      option.value = product.title;
+      option.textContent = product.title;
+      formatSelect.appendChild(option);
+    });
+    const unsure = document.createElement('option');
+    unsure.value = 'unsure';
+    unsure.textContent = 'Ещё не решила — помоги выбрать';
+    formatSelect.appendChild(unsure);
+    if(previous){ formatSelect.value = previous; }
+  }
+
+  if(!menu) return;
+  fetch('/api/products').then(function(r){
+    if(!r.ok) throw new Error('api unavailable');
+    return r.json();
+  }).then(function(data){
+    if(!data || data.ok !== true || !Array.isArray(data.products) || !data.products.length) return;
+    const rows = data.products.map(buildRow);
+    menu.textContent = '';
+    rows.forEach(function(row){ menu.appendChild(row); });
+    updateFormatSelect(data.products);
+  }).catch(function(){ /* API недоступен — остаются статичные карточки */ });
 })();
 </script>
 </body>
