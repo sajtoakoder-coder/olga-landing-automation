@@ -55,7 +55,18 @@ def main() -> int:
     ok("настройки: запись/чтение")
 
     # 2. CRUD записи
-    record = store.put("products", {"title": "__test__ Проверочный", "price": 1234})
+    record = store.put(
+        "products",
+        {
+            "title": "__test__ Проверочный",
+            "price": 1234,
+            "kind": "payment",
+            "delivery": "none",
+            "delivery_content": "",
+            "requires_slot": False,
+            "is_visible": True,
+        },
+    )
     created_ids["products"].append(record["id"])
     assert store.get("products", record["id"])["price"] == 1234
     record["price"] = 4321
