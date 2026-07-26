@@ -15,9 +15,37 @@ def test_seed_creates_four_with_fixed_ids(store):
         "seed-retreat",
         "seed-support",
     }
+    # у платных товаров есть фото, у заявочного «сопровождения» — нет
+    by_id = {p["id"]: p for p in items}
+    assert by_id["seed-consultation"]["image"].startswith("/photos/")
+    assert by_id["seed-training"]["image"].startswith("/photos/")
+    assert by_id["seed-retreat"]["image"].startswith("/photos/")
+    assert by_id["seed-support"]["image"] == ""
     # повторный вызов ничего не создаёт
     assert seed.ensure_seed(store) is False
     assert len(products.list_products(store)) == 4
+
+
+def test_seed_enrich_migration_adds_images_to_legacy(store):
+    """База со старым сидом (без фото): миграция досыпает фото и описания."""
+    for item in seed.DEFAULT_PRODUCTS:
+        legacy = {k: v for k, v in item.items() if k not in ("image",)}
+        legacy["description"] = "Коротко."
+        products.add_product(store, **legacy)
+    store.set_setting(seed.SEEDED_FLAG, True)
+    store.set_setting(seed.SEED_V2_FLAG, True)
+
+    assert seed.ensure_seed(store) is False
+    by_title = {p["title"]: p for p in products.list_products(store)}
+    assert by_title["Разовая консультация"]["image"].startswith("/photos/")
+    assert len(by_title["Разовая консультация"]["description"]) > 80
+    # заявочный товар остаётся без фото
+    assert by_title["Индивидуальное сопровождение"]["image"] == ""
+    assert store.get_setting(seed.SEED_V3_FLAG) is True
+
+    # свои товары Ольги (не из сида) миграция не трогает
+    custom = products.add_product(store, title="Авторский курс", price=1000)
+    assert products.get_product(store, custom["id"])["image"] == ""
 
 
 def test_seed_race_with_fixed_ids_is_idempotent(store):

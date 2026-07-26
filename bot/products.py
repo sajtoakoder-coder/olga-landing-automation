@@ -65,6 +65,22 @@ def _validate_enum(value: Any, allowed: tuple[str, ...], name: str) -> str:
     return value
 
 
+def _validate_image(value: Any) -> str:
+    """Ссылка на фото товара: абсолютный URL или путь на сайте («/photos/…»)."""
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise ValidationError("фото: ожидается ссылка")
+    cleaned = value.strip()
+    if not cleaned:
+        return ""
+    if len(cleaned) > 500:
+        raise ValidationError("фото: слишком длинная ссылка")
+    if not cleaned.lower().startswith(("http://", "https://", "/")):
+        raise ValidationError("фото: ссылка должна начинаться с http(s):// или /")
+    return cleaned
+
+
 def add_product(
     store: BaseStore,
     *,
@@ -78,6 +94,7 @@ def add_product(
     is_visible: bool = True,
     sort: int | None = None,
     product_id: str | None = None,
+    image: str = "",
 ) -> dict[str, Any]:
     """Создать товар. product_id задаётся только сидом (детерминированные id
     делают повторный сид идемпотентным — гонка не плодит дубли)."""
@@ -93,6 +110,7 @@ def add_product(
         "requires_slot": bool(requires_slot),
         "is_visible": bool(is_visible),
         "sort": int(sort) if sort is not None else _next_sort(store),
+        "image": _validate_image(image),
     }
     if product_id:
         record["id"] = str(product_id)
@@ -149,6 +167,8 @@ def update_product(store: BaseStore, product_id: str, **fields: Any) -> dict[str
         product["is_visible"] = bool(fields.pop("is_visible"))
     if "sort" in fields:
         product["sort"] = int(fields.pop("sort"))
+    if "image" in fields:
+        product["image"] = _validate_image(fields.pop("image"))
     if fields:
         raise ValidationError(f"неизвестные поля: {', '.join(sorted(fields))}")
     return store.put(KIND, product)
@@ -168,14 +188,20 @@ def payment_link(product: dict[str, Any]) -> str:
 
 
 def to_public(product: dict[str, Any]) -> dict[str, Any]:
-    """Представление товара для лендинга — без приватного содержимого выдачи."""
+    """Представление товара для лендинга — без приватного содержимого выдачи.
+
+    Тип выдачи (delivery) публичен — фронту нужно знать, требовать ли email;
+    секретно только содержимое (delivery_content).
+    """
     return {
         "id": product["id"],
         "title": product.get("title", ""),
         "description": product.get("description", ""),
         "price": int(product.get("price", 0)),
         "kind": product.get("kind", "payment"),
+        "delivery": product.get("delivery", "none"),
         "requires_slot": bool(product.get("requires_slot", False)),
+        "image": str(product.get("image") or ""),
     }
 
 

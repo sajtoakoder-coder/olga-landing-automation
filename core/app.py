@@ -79,7 +79,10 @@ def products_get(store: BaseStore) -> Response:
     """GET /api/products — видимые товары для лендинга (+автосид при пустой базе)."""
     ensure_seed(store)
     items = [products.to_public(p) for p in products.visible_products(store)]
-    return json_response(200, {"ok": True, "products": items})
+    return json_response(
+        200,
+        {"ok": True, "products": items, "payment_mode": config.payment_mode()},
+    )
 
 
 def slots_get(store: BaseStore) -> Response:

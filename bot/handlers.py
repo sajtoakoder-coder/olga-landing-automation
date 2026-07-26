@@ -169,6 +169,7 @@ EDIT_FIELDS = {
     "price": "Цена",
     "delivery": "Тип выдачи",
     "delivery_content": "Содержимое выдачи",
+    "image": "Фото (ссылка)",
 }
 
 
@@ -494,6 +495,7 @@ def create_router() -> Router:
                 "description": "Новое описание?",
                 "price": "Новая цена в рублях?",
                 "delivery_content": "Новое содержимое выдачи (текст письма или ссылка)?",
+                "image": "Ссылка на фото товара (https://… или «-», чтобы убрать)?",
             }
             await callback.message.answer(prompts.get(field, "Новое значение?"))
         await callback.answer()
@@ -518,9 +520,12 @@ def create_router() -> Router:
     async def edit_value(message: Message, state: FSMContext, store: BaseStore) -> None:
         data = await state.get_data()
         field = data.get("field", "")
+        value = message.text.strip()
+        if field == "image" and value.lower() in SKIP_WORDS:
+            value = ""
         try:
             product = products.update_product(
-                store, data.get("product_id", ""), **{field: message.text.strip()}
+                store, data.get("product_id", ""), **{field: value}
             )
         except ValidationError as exc:
             await message.answer(f"Не поняла: {esc(str(exc))}. Попробуй ещё раз или /cancel.")

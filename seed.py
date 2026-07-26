@@ -19,17 +19,26 @@ DEFAULT_PRODUCTS: list[dict[str, Any]] = [
     {
         "product_id": "seed-consultation",
         "title": "Разовая консультация",
-        "description": "Точечно, под конкретный запрос. Онлайн, 60 минут.",
+        "description": (
+            "Точечная работа один на один под конкретный запрос: сексология, инициации, "
+            "тело. Онлайн-встреча 60 минут в Телемосте. Вы уходите с пониманием, что "
+            "происходит и куда идти дальше."
+        ),
         "price": 5000,
         "kind": "payment",
         "delivery": "link",
         "delivery_content": "",  # пусто = ссылка Телемоста из настроек бота
         "requires_slot": True,
+        "image": "/photos/02_portrait_black_mesh.jpeg",
     },
     {
         "product_id": "seed-training",
         "title": "Онлайн-тренинг (Ведьма/Гейша)",
-        "description": "1,5 месяца групповой работы: инициации, практики, поддержка в чате.",
+        "description": (
+            "1,5 месяца групповой работы в архетипе Ведьмы или Гейши: инициации, "
+            "телесные практики, поддержка в закрытом чате. Доступ придёт на email "
+            "сразу после оплаты."
+        ),
         "price": 15000,
         "kind": "payment",
         "delivery": "email",
@@ -38,16 +47,22 @@ DEFAULT_PRODUCTS: list[dict[str, Any]] = [
             "вам от Ольги. (Ольга: задай ссылку в боте — Товары → ✏️ → содержимое выдачи.)"
         ),
         "requires_slot": False,
+        "image": "/photos/01_portrait_red_glove.jpeg",
     },
     {
         "product_id": "seed-retreat",
         "title": "Выездной ретрит",
-        "description": "Предоплата за место на выездном ретрите. Маленькая группа, вилла, 3 дня.",
+        "description": (
+            "Предоплата за место на выездном ретрите: маленькая группа, вилла под "
+            "Санкт-Петербургом, три дня глубокой работы со сказкой — баня, тишина, "
+            "инициация без телефонов."
+        ),
         "price": 30000,
         "kind": "payment",
         "delivery": "none",
         "delivery_content": "",
         "requires_slot": False,
+        "image": "/photos/03_moevir_portrait.jpeg",
     },
     {
         "product_id": "seed-support",
@@ -63,6 +78,7 @@ DEFAULT_PRODUCTS: list[dict[str, Any]] = [
 
 SEEDED_FLAG = "seeded"
 SEED_V2_FLAG = "seed_v2"  # выставлен = сид с фиксированными id + дедуп выполнены
+SEED_V3_FLAG = "seed_v3"  # выставлен = сид-товарам добавлены фото и полные описания
 
 
 def _seed_titles() -> set[str]:
@@ -90,12 +106,25 @@ def _dedupe_seed_products(store: BaseStore, existing: list[dict[str, Any]]) -> i
     return removed
 
 
+def _enrich_seed_products(store: BaseStore) -> None:
+    """Разовая миграция: досыпать фото/полные описания сид-товарам без фото."""
+    by_title = {item["title"]: item for item in DEFAULT_PRODUCTS}
+    for product in products.list_products(store):
+        source = by_title.get(product.get("title", ""))
+        if source is None or product.get("image"):
+            continue
+        product["image"] = source.get("image", "")
+        if len(str(product.get("description") or "")) < 80:
+            product["description"] = source.get("description", product.get("description", ""))
+        store.put(products.KIND, product)
+
+
 def ensure_seed(store: BaseStore) -> bool:
-    """Создать дефолтные товары один раз (и разово починить дубли).
+    """Создать дефолтные товары один раз (и разово починить/обогатить базу).
 
     True, если товары созданы этим вызовом.
     """
-    if store.get_setting(SEED_V2_FLAG):
+    if store.get_setting(SEED_V3_FLAG):
         return False
 
     existing = products.list_products(store)
@@ -105,10 +134,13 @@ def ensure_seed(store: BaseStore) -> bool:
             products.add_product(store, **item)
         created = True
     elif existing:
-        _dedupe_seed_products(store, existing)
+        if not store.get_setting(SEED_V2_FLAG):
+            _dedupe_seed_products(store, existing)
+        _enrich_seed_products(store)
 
     store.set_setting(SEEDED_FLAG, True)
     store.set_setting(SEED_V2_FLAG, True)
+    store.set_setting(SEED_V3_FLAG, True)
     return created
 
 

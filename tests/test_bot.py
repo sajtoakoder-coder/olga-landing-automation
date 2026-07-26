@@ -263,6 +263,18 @@ async def test_edit_product_delivery_via_buttons(env):
     assert products.get_product(env.store, product["id"])["delivery"] == "link"
 
 
+async def test_edit_product_image(env):
+    product = products.add_product(env.store, title="Товар", price=1000)
+    await env.click(f"pr:field:{product['id']}:image")
+    assert "фото" in env.last.lower()
+    await env.send("https://example.com/photo.jpg")
+    assert products.get_product(env.store, product["id"])["image"] == "https://example.com/photo.jpg"
+    # «-» убирает фото
+    await env.click(f"pr:field:{product['id']}:image")
+    await env.send("-")
+    assert products.get_product(env.store, product["id"])["image"] == ""
+
+
 async def test_edit_validation_error_keeps_state(env):
     product = products.add_product(env.store, title="Товар", price=1000)
     await env.click(f"pr:field:{product['id']}:title")

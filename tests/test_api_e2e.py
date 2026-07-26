@@ -52,12 +52,15 @@ def test_products_endpoint_returns_seeded_list(base_url):
     status, data = http_json("GET", f"{base_url}/api/products")
     assert status == 200
     assert data["ok"] is True
+    assert data["payment_mode"] == "stub"
     assert isinstance(data["products"], list)
     assert len(data["products"]) == 4  # автосид дефолтных товаров
     titles = [p["title"] for p in data["products"]]
     assert "Разовая консультация" in titles
     # приватное содержимое выдачи не отдаём наружу
     assert all("delivery_content" not in p for p in data["products"])
+    # у платных товаров есть фото для карточки
+    assert any(p["image"] for p in data["products"])
 
 
 def test_booking_valid_and_invalid(base_url):
@@ -155,6 +158,9 @@ def test_index_served_with_formats_section(base_url):
     assert 'id="reviews"' in text
     assert 'id="certificates"' in text
     assert 'id="lightbox"' in text
+    # модалки заявки и покупки
+    assert 'id="bookingModal"' in text
+    assert 'id="productModal"' in text
 
 
 def test_review_and_certificate_photos_served(base_url):

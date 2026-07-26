@@ -1406,6 +1406,65 @@ body.modal-open{overflow:hidden}
   .booking-modal{padding:16px 10px}
 }
 
+/* ---------- PRODUCT MODAL ---------- */
+.product-modal{
+  position:fixed;inset:0;z-index:185;
+  background:rgba(10,9,8,0.94);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:40px 20px;
+  overflow-y:auto;
+}
+.product-modal[hidden]{display:none}
+.product-modal.open{animation:fadeIn .25s ease both}
+.product-modal__inner{
+  position:relative;
+  width:min(620px, 100%);
+  margin:auto 0;
+  background:var(--paper);
+  color:var(--ink);
+}
+.product-modal__close{
+  position:absolute;top:10px;right:10px;z-index:3;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-size:24px;line-height:1;
+  color:var(--paper);background:rgba(10,9,8,0.55);
+  cursor:pointer;transition:background .2s;
+}
+.product-modal__close:hover{background:var(--blood-deep)}
+.product-modal__close:focus-visible{outline:1px dashed var(--blood);outline-offset:3px}
+.product-modal__media{position:relative;height:270px;overflow:hidden;background:var(--noir)}
+.product-modal__media[hidden]{display:none}
+.product-modal__media img{width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:contrast(1.05) saturate(0.95)}
+.product-modal__media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, transparent 62%, rgba(10,9,8,0.35) 100%);pointer-events:none}
+.product-modal__body{padding:28px 36px 8px}
+.product-modal__body .kicker{color:var(--blood-deep)}
+.product-modal__title{font-family:var(--serif);font-weight:400;font-size:clamp(26px,4vw,32px);line-height:1.06;margin:12px 0 12px}
+.product-modal__title em{font-style:italic;color:var(--blood-deep)}
+.product-modal__price{font-family:var(--serif);font-size:21px;margin-bottom:16px}
+.product-modal__price small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust-2);margin-bottom:4px}
+.product-modal__desc{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--dust-2);margin-bottom:8px}
+.product-modal__stub{
+  margin:10px 36px 0;
+  background:rgba(201,74,58,0.09);
+  border:1px dashed var(--blood-deep);
+  color:var(--blood-deep);
+  font-family:var(--sans);font-size:12px;line-height:1.5;letter-spacing:0.04em;
+  padding:10px 14px;
+}
+.product-modal__stub[hidden]{display:none}
+.product-modal form{padding:26px 36px 32px;margin-top:14px}
+.product-modal .pm-legal{font-family:var(--sans);font-size:11px;line-height:1.6;color:var(--dust-2)}
+.product-modal .pm-legal a{color:var(--blood-deep);border-bottom:1px solid rgba(156,51,36,0.4)}
+.product-modal .pm-legal a:hover{border-bottom-color:var(--blood-deep)}
+@media (max-width:640px){
+  .product-modal{padding:14px 10px}
+  .product-modal__media{height:200px}
+  .product-modal__body{padding:22px 20px 4px}
+  .product-modal__stub{margin:10px 20px 0}
+  .product-modal form{padding:22px 20px 26px;margin-top:12px}
+}
+
 /* ---------- COOKIE NOTICE ---------- */
 .cookiebar{
   position:fixed;left:18px;bottom:18px;
@@ -1968,6 +2027,49 @@ body.modal-open{overflow:hidden}
   </div>
 </div>
 
+<!-- ============ PRODUCT MODAL ============ -->
+<div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-label="Оформление записи и оплаты" hidden>
+  <div class="product-modal__inner">
+    <button type="button" class="product-modal__close" aria-label="Закрыть">×</button>
+    <div class="product-modal__media" id="pmMedia" hidden>
+      <img id="pmImage" src="" alt="" />
+    </div>
+    <div class="product-modal__body">
+      <span class="kicker">Формат</span>
+      <h3 class="product-modal__title" id="pmTitle"></h3>
+      <div class="product-modal__price"><small>стоимость</small><span id="pmPrice"></span></div>
+      <p class="product-modal__desc" id="pmDesc"></p>
+    </div>
+    <div class="product-modal__stub" id="pmStub" hidden>
+      Это тестовая оплата: деньги не&nbsp;списываются. Нажмите кнопку для имитации успешного платежа.
+    </div>
+    <form id="purchaseForm" novalidate>
+      <div class="field">
+        <label for="pm-name">Имя</label>
+        <input id="pm-name" type="text" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="pm-contact">Telegram для связи</label>
+        <input id="pm-contact" type="text" placeholder="@nickname" />
+      </div>
+      <div class="field">
+        <label for="pm-email">Email <span class="req" id="pmEmailReq" hidden>*</span></label>
+        <input id="pm-email" type="email" autocomplete="email" placeholder="you@mail.ru" />
+      </div>
+      <div class="field" id="pmSlotField" hidden>
+        <label for="pm-slot">Время сессии <span class="req">*</span></label>
+        <select id="pm-slot"><option value="">— выберите слот —</option></select>
+      </div>
+      <div class="form__error" id="pmError" role="alert"></div>
+      <button class="submit" type="submit">
+        <span id="pmSubmitLabel">Записаться и оплатить</span>
+        <span class="arr" aria-hidden="true">→</span>
+      </button>
+      <p class="pm-legal">Нажимая кнопку, вы даёте <a href="/consent" target="_blank" rel="noopener">согласие на&nbsp;обработку персональных данных</a> в&nbsp;соответствии с&nbsp;<a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+    </form>
+  </div>
+</div>
+
 <!-- ============ COOKIE NOTICE ============ -->
 <div class="cookiebar" id="cookieBar" role="region" aria-label="Уведомление об использовании cookie" hidden>
   <p>Сайт использует только технически необходимые cookie и&nbsp;локальное хранилище браузера — без рекламы и&nbsp;аналитики. Оставаясь здесь, вы&nbsp;соглашаетесь с&nbsp;<a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
@@ -2210,11 +2312,23 @@ body.modal-open{overflow:hidden}
     button.appendChild(label);
     button.appendChild(arr);
     button.addEventListener('click', function(){
-      if(product.kind === 'payment'){ startPayment(product, button); }
+      if(product.kind === 'payment'){
+        if(window.__openPurchase){ window.__openPurchase(product); }
+        else { startPayment(product, button); }
+      }
       else { scrollToBooking(product.title); }
     });
     price.appendChild(button);
     row.appendChild(price);
+    // вся строка кликабельна (у неё и так cursor:pointer из дизайна)
+    row.addEventListener('click', function(e){
+      if(e.target.closest('.menu__action')) return;
+      if(product.kind === 'payment'){
+        if(window.__openPurchase){ window.__openPurchase(product); }
+        else { startPayment(product, button); }
+      }
+      else { scrollToBooking(product.title); }
+    });
     return row;
   }
 
@@ -2241,11 +2355,170 @@ body.modal-open{overflow:hidden}
     return r.json();
   }).then(function(data){
     if(!data || data.ok !== true || !Array.isArray(data.products) || !data.products.length) return;
+    window.__paymentMode = data.payment_mode || 'stub';
     const rows = data.products.map(buildRow);
     menu.textContent = '';
     rows.forEach(function(row){ menu.appendChild(row); });
     updateFormatSelect(data.products);
   }).catch(function(){ /* API недоступен — остаются статичные карточки */ });
+})();
+
+// Product purchase modal: карточка товара + оформление оплаты на месте
+(function(){
+  const modal = document.getElementById('productModal');
+  if(!modal || !window.fetch) return;
+  const media = document.getElementById('pmMedia');
+  const image = document.getElementById('pmImage');
+  const titleEl = document.getElementById('pmTitle');
+  const priceEl = document.getElementById('pmPrice');
+  const descEl = document.getElementById('pmDesc');
+  const stubNote = document.getElementById('pmStub');
+  const form = document.getElementById('purchaseForm');
+  const nameInput = document.getElementById('pm-name');
+  const contactInput = document.getElementById('pm-contact');
+  const emailInput = document.getElementById('pm-email');
+  const emailReq = document.getElementById('pmEmailReq');
+  const slotField = document.getElementById('pmSlotField');
+  const slotSelect = document.getElementById('pm-slot');
+  const errorBox = document.getElementById('pmError');
+  const submitBtn = form.querySelector('.submit');
+  const submitLabel = document.getElementById('pmSubmitLabel');
+  const closeBtn = modal.querySelector('.product-modal__close');
+
+  let current = null;
+  let lastFocus = null;
+  let emailRequired = false;
+  let busy = false;
+
+  function formatPrice(value){ return value.toLocaleString('ru-RU') + ' ₽'; }
+
+  function fail(text){
+    errorBox.textContent = text;
+    errorBox.classList.add('show');
+    busy = false;
+    submitBtn.disabled = false;
+  }
+
+  function loadSlots(){
+    slotSelect.innerHTML = '<option value="">— выберите слот —</option>';
+    slotField.hidden = true;
+    fetch('/api/slots').then(function(r){ return r.json(); }).then(function(data){
+      if(data && data.ok && Array.isArray(data.slots) && data.slots.length){
+        data.slots.forEach(function(s){
+          const option = document.createElement('option');
+          option.value = s.id;
+          option.textContent = s.label;
+          slotSelect.appendChild(option);
+        });
+        slotField.hidden = false;
+      }
+    }).catch(function(){});
+  }
+
+  function open(product){
+    current = product;
+    lastFocus = document.activeElement;
+    busy = false;
+    form.reset();
+    errorBox.classList.remove('show');
+    submitBtn.disabled = false;
+
+    titleEl.textContent = product.title;
+    priceEl.textContent = formatPrice(product.price);
+    descEl.textContent = product.description || '';
+    descEl.style.display = product.description ? '' : 'none';
+    if(product.image){
+      image.src = product.image;
+      image.alt = product.title;
+      media.hidden = false;
+    } else {
+      image.removeAttribute('src');
+      media.hidden = true;
+    }
+    const stub = window.__paymentMode !== 'live';
+    stubNote.hidden = !stub;
+    submitLabel.textContent = stub
+      ? 'Записаться и оплатить (тест)'
+      : 'Оплатить ' + formatPrice(product.price);
+    emailRequired = product.delivery === 'email' || !!product.requires_slot;
+    emailReq.hidden = !emailRequired;
+    if(product.requires_slot){ loadSlots(); }
+    else { slotField.hidden = true; }
+
+    modal.hidden = false;
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    nameInput.focus({preventScroll:true});
+  }
+
+  function close(){
+    modal.classList.remove('open');
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if(lastFocus && lastFocus.focus){ lastFocus.focus({preventScroll:true}); }
+  }
+
+  window.__openPurchase = open;
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(busy || !current) return;
+    errorBox.classList.remove('show');
+    const email = emailInput.value.trim();
+    if(emailRequired && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      fail('Укажите корректный email — на него придёт доступ и ссылка.');
+      return;
+    }
+    if(!slotField.hidden && !slotSelect.value){
+      fail('Выберите время сессии.');
+      return;
+    }
+    busy = true;
+    submitBtn.disabled = true;
+
+    fetch('/api/payment/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({product_id: current.id})
+    }).then(function(r){ return r.json(); }).then(function(created){
+      if(!created || created.ok !== true){ throw new Error(created && created.error || ''); }
+      return fetch('/api/pay', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          payment_id: created.payment_id,
+          name: nameInput.value,
+          contact: contactInput.value,
+          email: email,
+          slot_id: slotField.hidden ? '' : slotSelect.value
+        })
+      }).then(function(r){ return r.json(); });
+    }).then(function(data){
+      if(!data || data.ok !== true){ throw new Error(data && data.error || ''); }
+      if(data.mode === 'live' || data.mode === 'paid'){ window.location = data.redirect; return; }
+      // stub: имитируем подтверждение от ЮMoney через webhook
+      return fetch('/api/payment/webhook', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({payment_id: data.payment_id, signature: data.signature})
+      }).then(function(r){ return r.json(); }).then(function(hook){
+        if(!hook || hook.ok !== true){ throw new Error(hook && hook.error || ''); }
+        window.location = data.redirect;
+      });
+    }).catch(function(err){
+      const message = err && err.message && /[а-яА-Я]/.test(err.message)
+        ? err.message
+        : 'Что-то пошло не так. Попробуйте ещё раз или напишите в Telegram @MiyaLaReina.';
+      fail(message);
+      if(current && current.requires_slot){ loadSlots(); }
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', function(e){ if(e.target === modal) close(); });
+  document.addEventListener('keydown', function(e){
+    if(!modal.hidden && e.key === 'Escape' && !busy) close();
+  });
 })();
 
 // Reviews expand toggle + lightbox for reviews/certificates

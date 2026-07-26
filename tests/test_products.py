@@ -157,11 +157,34 @@ def test_payment_link_uses_app_url(store, monkeypatch):
 def test_to_public_hides_delivery_content(store):
     product = make(store, delivery_content="https://t.me/+secret-chat")
     public = products.to_public(product)
+    # приватно только содержимое выдачи; тип выдачи нужен фронту (email-обязательность)
     assert "delivery_content" not in public
-    assert "delivery" not in public
+    assert "secret-chat" not in str(public)
+    assert public["delivery"] == "link"
     assert public["id"] == product["id"]
     assert public["price"] == 5000
     assert public["requires_slot"] is False
+    assert public["image"] == ""
+
+
+def test_product_image_field(store):
+    product = make(store, image="/photos/01_portrait_red_glove.jpeg")
+    assert product["image"] == "/photos/01_portrait_red_glove.jpeg"
+    assert products.to_public(product)["image"] == "/photos/01_portrait_red_glove.jpeg"
+
+    updated = products.update_product(store, product["id"], image="https://cdn.example/x.jpg")
+    assert updated["image"] == "https://cdn.example/x.jpg"
+    # убрать фото
+    assert products.update_product(store, product["id"], image="")["image"] == ""
+
+
+def test_product_image_validation(store):
+    with pytest.raises(ValidationError):
+        make(store, image="ftp://bad")
+    with pytest.raises(ValidationError):
+        make(store, image="просто текст")
+    with pytest.raises(ValidationError):
+        make(store, image="https://x/" + "a" * 500)
 
 
 def test_format_price():
