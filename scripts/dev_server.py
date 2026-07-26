@@ -25,6 +25,8 @@ STATIC_ROUTES = {
     "/index.html": "index.html",
     "/success": "success.html",
     "/success.html": "success.html",
+    "/privacy": "privacy.html",
+    "/consent": "consent.html",
 }
 
 

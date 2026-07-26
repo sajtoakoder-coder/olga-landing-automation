@@ -98,6 +98,9 @@ def test_pay_page_renders_stub(api, product):
     assert "Подтвердить оплату (тест)" in page
     # подпись не светится в HTML (выдаётся только после POST /api/pay)
     assert payments.stub_signature(payment["payment_id"]) not in page
+    # ссылки на документы о персональных данных
+    assert 'href="/consent"' in page
+    assert 'href="/privacy"' in page
 
 
 def test_pay_page_unknown_payment_404(api):

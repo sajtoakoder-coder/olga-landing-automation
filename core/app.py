@@ -347,6 +347,9 @@ button.pay{width:100%;margin-top:8px;padding:20px 26px;background:var(--ink);col
 button.pay:hover{background:var(--blood-deep)}
 button.pay:disabled{opacity:.6;cursor:wait}
 button.pay .arr{font-family:var(--serif);font-style:italic;font-size:18px;letter-spacing:0}
+.legal{margin-top:16px;font-family:var(--sans);font-size:11px;line-height:1.6;color:var(--dust-2)}
+.legal a{color:var(--blood-deep);text-decoration:none;border-bottom:1px solid rgba(156,51,36,.4)}
+.legal a:hover{border-bottom-color:var(--blood-deep)}
 .back{margin-top:22px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dust)}
 .back a{color:inherit;text-decoration:none;border-bottom:1px solid var(--dust-2);padding-bottom:2px}
 .back a:hover{color:var(--paper)}
@@ -368,6 +371,7 @@ button.pay .arr{font-family:var(--serif);font-style:italic;font-size:18px;letter
     __SLOT_FIELD__
     <div class="error" id="payError"></div>
     <button class="pay" type="submit"><span>__BUTTON__</span><span class="arr">→</span></button>
+    <p class="legal">Нажимая кнопку, вы даёте <a href="/consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a> в соответствии с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
   </form>
 </div>
 <div class="back"><a href="__BACK_URL__">← вернуться на сайт</a></div>

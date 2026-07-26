@@ -22,6 +22,8 @@
     { "src": "/api/bot/webhook", "dest": "/api/bot/webhook.py" },
     { "src": "/pay", "dest": "/api/pay.py" },
     { "src": "/success", "dest": "/site/success.html" },
+    { "src": "/privacy", "dest": "/site/privacy.html" },
+    { "src": "/consent", "dest": "/site/consent.html" },
     { "src": "/", "dest": "/site/index.html" },
     { "src": "/photos/(.*)", "dest": "/site/photos/$1" },
     { "src": "/site/(.*)", "dest": "/site/$1" }

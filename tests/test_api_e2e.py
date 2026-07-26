@@ -172,6 +172,35 @@ def test_success_page_served(base_url):
         assert "Оплата" in body.decode("utf-8")
 
 
+def test_legal_pages_served(base_url):
+    status, body, _ = http("GET", f"{base_url}/privacy")
+    assert status == 200
+    text = body.decode("utf-8")
+    assert "Политика" in text
+    assert "152-ФЗ" in text
+    assert "Андреевой Ольгой Леонидовной" in text
+
+    status, body, _ = http("GET", f"{base_url}/consent")
+    assert status == 200
+    text = body.decode("utf-8")
+    assert "Согласие" in text
+    assert "отзыв согласия" in text
+
+    # и по прямым путям тоже
+    for path in ("/site/privacy.html", "/site/consent.html"):
+        status, _, _ = http("GET", f"{base_url}{path}")
+        assert status == 200, path
+
+
+def test_index_has_cookie_notice_and_legal_links(base_url):
+    status, body, _ = http("GET", f"{base_url}/")
+    text = body.decode("utf-8")
+    assert status == 200
+    assert 'id="cookieBar"' in text
+    assert 'href="/privacy"' in text
+    assert 'href="/consent"' in text
+
+
 def test_photos_served(base_url):
     status, body, headers = http("GET", f"{base_url}/photos/01_portrait_red_glove.jpeg")
     assert status == 200
