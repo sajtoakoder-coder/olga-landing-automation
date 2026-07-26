@@ -161,6 +161,8 @@ def test_index_served_with_formats_section(base_url):
     # модалки заявки и покупки
     assert 'id="bookingModal"' in text
     assert 'id="productModal"' in text
+    # кнопки «Подробнее» в разделе практик
+    assert text.count('entry__more') >= 4
 
 
 def test_review_and_certificate_photos_served(base_url):

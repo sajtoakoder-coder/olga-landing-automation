@@ -1463,6 +1463,7 @@ body.modal-open{overflow:hidden}
   .product-modal__body{padding:22px 20px 4px}
   .product-modal__stub{margin:10px 20px 0}
   .product-modal form{padding:22px 20px 26px;margin-top:12px}
+  .product-modal__inner.view-only .product-modal__body{padding-bottom:26px}
 }
 /* ПК: широкая двухколоночная карточка — фото слева, контент и форма справа */
 @media (min-width:901px){
@@ -1487,6 +1488,11 @@ body.modal-open{overflow:hidden}
   .product-modal__stub{grid-area:stub;margin:12px 40px 0}
   .product-modal form{grid-area:form;padding:26px 40px 34px;margin-top:16px}
   .product-modal .form__success{grid-area:form;margin:16px 0 0}
+  /* режим просмотра (без покупки): только фото и описание */
+  .product-modal__inner.view-only{grid-template-areas:"media body";grid-template-rows:1fr}
+  .product-modal__inner.view-only .product-modal__media{min-height:400px}
+  .product-modal__inner.view-only .product-modal__body{padding-bottom:38px;align-self:center}
+  .product-modal__inner.no-media.view-only{grid-template-areas:"body";grid-template-columns:1fr}
 }
 
 /* ---------- COOKIE NOTICE ---------- */
@@ -1707,9 +1713,9 @@ body.modal-open{overflow:hidden}
         <p class="entry__body">
           Инициация в&nbsp;архетип Ведьмы: своя воля, интуиция, магия действия. Возвращение права выбирать по-своему — без вины и&nbsp;оправданий.
         </p>
-        <a href="#formats" data-open-booking class="entry__link" aria-label="Записаться на тренинг Сила Ведьмы">
-          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
-        </a>
+        <button type="button" class="entry__link entry__more" data-product-match="ведьма|гейша|тренинг" aria-label="Подробнее о тренинге Сила Ведьмы">
+          <span>Подробнее</span><span class="arr" aria-hidden="true">→</span>
+        </button>
       </article>
 
       <article class="entry reveal">
@@ -1719,9 +1725,9 @@ body.modal-open{overflow:hidden}
         <p class="entry__body">
           Тренировка чувственного, тонкого, притягивающего. Гейша — не&nbsp;роль, а&nbsp;внутреннее состояние, из&nbsp;которого хочется жить и&nbsp;которое хочется любить.
         </p>
-        <a href="#formats" data-open-booking class="entry__link" aria-label="Записаться на тренинг Соблазн Гейши">
-          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
-        </a>
+        <button type="button" class="entry__link entry__more" data-product-match="гейша|ведьма|тренинг" aria-label="Подробнее о тренинге Соблазн Гейши">
+          <span>Подробнее</span><span class="arr" aria-hidden="true">→</span>
+        </button>
       </article>
     </div>
 
@@ -1738,9 +1744,9 @@ body.modal-open{overflow:hidden}
         <p class="entry__body">
           Точечная работа один на&nbsp;один: разовые консультации или регулярные сессии. Сексология, инициации, тело — под конкретный запрос.
         </p>
-        <a href="#formats" data-open-booking class="entry__link" aria-label="Записаться на личную сессию">
-          <span>Записаться</span><span class="arr" aria-hidden="true">→</span>
-        </a>
+        <button type="button" class="entry__link entry__more" data-product-match="консультация|терапия|сессия" aria-label="Подробнее о личной терапии">
+          <span>Подробнее</span><span class="arr" aria-hidden="true">→</span>
+        </button>
       </article>
 
       <article class="entry reveal">
@@ -1750,9 +1756,9 @@ body.modal-open{overflow:hidden}
         <p class="entry__body">
           Выездная инициация: маленькая группа, вилла, глубокая работа со&nbsp;сказкой. Ближайший — 14–16&nbsp;августа, час езды от&nbsp;Санкт-Петербурга.
         </p>
-        <a href="#formats" data-open-booking class="entry__link" aria-label="Записаться на ретрит">
-          <span>Забронировать</span><span class="arr" aria-hidden="true">→</span>
-        </a>
+        <button type="button" class="entry__link entry__more" data-product-match="ретрит" aria-label="Подробнее о ретрите">
+          <span>Подробнее</span><span class="arr" aria-hidden="true">→</span>
+        </button>
       </article>
     </div>
   </div>
@@ -2385,6 +2391,7 @@ body.modal-open{overflow:hidden}
   }).then(function(data){
     if(!data || data.ok !== true || !Array.isArray(data.products) || !data.products.length) return;
     window.__paymentMode = data.payment_mode || 'stub';
+    window.__products = data.products;
     const rows = data.products.map(buildRow);
     menu.textContent = '';
     rows.forEach(function(row){ menu.appendChild(row); });
@@ -2451,12 +2458,13 @@ body.modal-open{overflow:hidden}
     }).catch(function(){});
   }
 
-  function open(product){
+  function open(product, opts){
+    const viewOnly = !!(opts && opts.viewOnly);
     current = product;
     lastFocus = document.activeElement;
     busy = false;
     form.reset();
-    form.style.display = '';
+    form.style.display = viewOnly ? 'none' : '';
     successBlock.classList.remove('show');
     errorBox.classList.remove('show');
     submitBtn.disabled = false;
@@ -2475,10 +2483,12 @@ body.modal-open{overflow:hidden}
       image.removeAttribute('src');
       media.hidden = true;
     }
-    modal.querySelector('.product-modal__inner').classList.toggle('no-media', !product.image);
+    const inner = modal.querySelector('.product-modal__inner');
+    inner.classList.toggle('no-media', !product.image);
+    inner.classList.toggle('view-only', viewOnly);
 
     const stub = window.__paymentMode !== 'live';
-    stubNote.hidden = isRequest || !stub;
+    stubNote.hidden = viewOnly || isRequest || !stub;
     if(isRequest){
       submitLabel.textContent = 'Отправить заявку';
       contactLabel.textContent = 'Telegram или e-mail';
@@ -2496,7 +2506,7 @@ body.modal-open{overflow:hidden}
       emailField.hidden = false;
       messageField.hidden = true;
       emailRequired = product.delivery === 'email' || !!product.requires_slot;
-      if(product.requires_slot){ loadSlots(); }
+      if(product.requires_slot && !viewOnly){ loadSlots(); }
       else { slotField.hidden = true; }
     }
     emailReq.hidden = !emailRequired;
@@ -2504,7 +2514,8 @@ body.modal-open{overflow:hidden}
     modal.hidden = false;
     modal.classList.add('open');
     document.body.classList.add('modal-open');
-    nameInput.focus({preventScroll:true});
+    if(viewOnly){ closeBtn.focus({preventScroll:true}); }
+    else { nameInput.focus({preventScroll:true}); }
   }
 
   function close(){
@@ -2605,6 +2616,24 @@ body.modal-open{overflow:hidden}
   modal.addEventListener('click', function(e){ if(e.target === modal) close(); });
   document.addEventListener('keydown', function(e){
     if(!modal.hidden && e.key === 'Escape' && !busy) close();
+  });
+
+  // «Подробнее» в разделе практик — карточка товара без покупки
+  document.querySelectorAll('.entry__more').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const keywords = (btn.dataset.productMatch || '').toLowerCase().split('|').filter(Boolean);
+      const list = window.__products || [];
+      let match = null;
+      for(const keyword of keywords){
+        match = list.find(function(p){ return p.title.toLowerCase().indexOf(keyword) !== -1; });
+        if(match) break;
+      }
+      if(match){ open(match, {viewOnly: true}); }
+      else {
+        const formats = document.getElementById('formats');
+        if(formats) formats.scrollIntoView({behavior: 'smooth'});
+      }
+    });
   });
 })();
 
