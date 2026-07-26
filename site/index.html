@@ -1464,6 +1464,29 @@ body.modal-open{overflow:hidden}
   .product-modal__stub{margin:10px 20px 0}
   .product-modal form{padding:22px 20px 26px;margin-top:12px}
 }
+/* ПК: широкая двухколоночная карточка — фото слева, контент и форма справа */
+@media (min-width:901px){
+  .product-modal__inner{
+    width:min(980px, 100%);
+    display:grid;
+    grid-template-columns:0.95fr 1.05fr;
+    grid-template-areas:
+      "media body"
+      "media stub"
+      "media form";
+    grid-template-rows:auto auto 1fr;
+  }
+  .product-modal__inner.no-media{
+    width:min(640px, 100%);
+    grid-template-columns:1fr;
+    grid-template-areas:"body" "stub" "form";
+  }
+  .product-modal__media{grid-area:media;height:100%;min-height:520px}
+  .product-modal__media::after{background:linear-gradient(90deg, transparent 70%, rgba(10,9,8,0.25) 100%)}
+  .product-modal__body{grid-area:body;padding:36px 40px 10px}
+  .product-modal__stub{grid-area:stub;margin:12px 40px 0}
+  .product-modal form{grid-area:form;padding:26px 40px 34px;margin-top:16px}
+}
 
 /* ---------- COOKIE NOTICE ---------- */
 .cookiebar{
@@ -2435,6 +2458,7 @@ body.modal-open{overflow:hidden}
       image.removeAttribute('src');
       media.hidden = true;
     }
+    modal.querySelector('.product-modal__inner').classList.toggle('no-media', !product.image);
     const stub = window.__paymentMode !== 'live';
     stubNote.hidden = !stub;
     submitLabel.textContent = stub
