@@ -1293,9 +1293,15 @@ form::before{
 .certs__header h2 em{font-style:italic;color:var(--blood-deep)}
 .certs__header .kicker{color:var(--blood-deep)}
 .certs__header p{font-family:var(--serif-italic);font-style:italic;font-size:20px;line-height:1.5;color:var(--dust-2)}
-.certs__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:28px 26px}
+.certs__main{margin-bottom:64px;padding-bottom:56px;border-bottom:1px solid rgba(20,16,16,0.2)}
+.certs__block-title{font-family:var(--sans);font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--dust-2);margin-bottom:22px;display:flex;align-items:baseline;gap:16px}
+.certs__block-title .roman{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--blood-deep);letter-spacing:0.1em}
+.certs__main .cert{max-width:760px;margin:0 auto}
+.certs__main .cert img{height:auto;max-height:460px;object-fit:contain;background:var(--paper-2)}
+.certs__main .cert__label{text-align:center}
+.certs__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 26px}
 .cert{padding:0;border:0;background:transparent;cursor:zoom-in;text-align:left;display:block}
-.cert img{width:100%;height:150px;object-fit:cover;object-position:top center;display:block;border:1px solid rgba(20,16,16,0.35);filter:sepia(.06);transition:border-color .25s, filter .25s}
+.cert img{width:100%;height:170px;object-fit:cover;object-position:top center;display:block;border:1px solid rgba(20,16,16,0.35);filter:sepia(.06);transition:border-color .25s, filter .25s}
 .cert:hover img{border-color:var(--blood-deep);filter:sepia(0)}
 .cert:focus-visible{outline:1px dashed var(--blood-deep);outline-offset:4px}
 .cert__label{display:block;margin-top:12px;font-family:var(--sans);font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--dust-2);line-height:1.8}
@@ -1303,6 +1309,8 @@ form::before{
   .certs{padding:80px 22px}
   .certs__header{grid-template-columns:1fr;gap:18px;margin-bottom:40px}
   .certs__header p{font-size:17px}
+  .certs__main{margin-bottom:44px;padding-bottom:40px}
+  .certs__main .cert img{max-height:260px}
   .certs__grid{grid-template-columns:repeat(2,1fr);gap:22px 16px}
   .cert img{height:120px}
 }
@@ -1776,11 +1784,15 @@ body.lightbox-open{overflow:hidden}
       </div>
       <p>Метод опирается не&nbsp;только на&nbsp;практику: профессиональная переподготовка по&nbsp;инициациям и&nbsp;сертификаты по&nbsp;сексологии — вот они, документально.</p>
     </div>
-    <div class="certs__grid reveal">
+    <div class="certs__main reveal">
+      <div class="certs__block-title"><span class="roman">I</span><span>Диплом о&nbsp;профессиональной переподготовке</span></div>
       <button type="button" class="cert" data-group="certs" data-caption="Диплом · Инициации психологической зрелости">
         <img src="photos/certificates/c01.jpg" width="1280" height="908" loading="lazy" alt="Диплом о профессиональной переподготовке — «Инициации психологической зрелости», 254 часа" />
-        <span class="cert__label">Диплом · Инициации психологической зрелости · 254&nbsp;ч</span>
+        <span class="cert__label">«Инициации психологической зрелости» · 254&nbsp;часа · 2025</span>
       </button>
+    </div>
+    <div class="certs__block-title reveal"><span class="roman">II</span><span>Сертификаты по&nbsp;сексологии</span></div>
+    <div class="certs__grid reveal">
       <button type="button" class="cert" data-group="certs" data-caption="Сертификат · Консультирование и коучинг в сексологии">
         <img src="photos/certificates/c02.jpg" width="1179" height="808" loading="lazy" alt="Сертификат — основы психологического консультирования и коучинга в сексологии, 50 часов" />
         <span class="cert__label">Сертификат · Коучинг в&nbsp;сексологии · 50&nbsp;ч</span>
